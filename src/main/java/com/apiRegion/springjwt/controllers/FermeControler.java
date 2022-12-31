@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/ferme")
@@ -69,10 +70,74 @@ public class FermeControler {
         }
 
     }
+    //// ================================================ MODIFIER UNE FERME
+    @PutMapping("/modifier/{idferme}")
+    public ReponseMessage Modifier(
+                                  @PathVariable("idferme") Long idferme,
+                                  @Param("nomferme") String nomferme,
+                                  @Param("activiteferme") String activiteferme,
+                                  @Param("adresseferme") String adresseferme,
+                                  @Param("user_id") User user_id,
+                                  @Param("etat") boolean etat,
+                                  @Param("file") MultipartFile file) throws IOException {
+
+        Ferme ferme1 = new Ferme();
+        String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+
+        ferme1.setNomferme(nomferme);
+
+        ferme1.setActiviteferme(activiteferme);
+        ferme1.setAdresseferme(adresseferme);
+        ferme1.setImageferme(nomfile);
+        ferme1.setEtat(true);
+        ferme1.setUser(user_id);
+        ferme1.setEtat(etat);
+
+        System.out.println("Modifier ========== "+nomfile);
+        System.out.println("Modifier ========== "+nomferme);
+        System.out.println("Modifier ========== "+activiteferme);
+        System.out.println(" Modifier ========== "+adresseferme);
+
+
+        if(fermeRepository.findById(idferme) != null){
+
+            String uploaDir = "C:/Users/adcoulibaly/Desktop/Adama/CLONES_API/SoutenanceODC/Backend/Api-Regions-Originale/src/main/resources/images";
+            ConfigImage.saveimg(uploaDir, nomfile, file);
+
+            return fermeService.Modifier(ferme1,idferme);
+
+        }else {
+            ReponseMessage message = new ReponseMessage("Cette ferme n'existe pas",false);
+            return message;
+        }
+
+    }
+
 
     ////================================================= LISTER TOUS LES FERMES
     @GetMapping("/lister")
     public List<Ferme> lister(){
         return fermeService.Lister();
     }
+
+    ////=================================================
+
+    @DeleteMapping("supprimer/{idferme}")
+    public ReponseMessage changeEtat(@PathVariable("idferme") Long idferme)
+    {
+
+        Optional<Ferme> ferme = this.fermeRepository.findById(idferme);
+        if (!ferme.isPresent())
+        {
+            ReponseMessage message = new ReponseMessage("Ferme non trouvée !", false);
+            return message;
+        }
+        else {
+            this.fermeRepository.delete(ferme.get());
+            ReponseMessage message = new ReponseMessage("Région supprimé avec succès !", true);
+            return message;
+        }
+
+    }
+
 }

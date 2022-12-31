@@ -23,10 +23,10 @@ public class Ferme {
     private  String activiteferme;
     private String adresseferme;
     private String imageferme;
-    private boolean etat;
+    private boolean etat = false;
 
 
-    @ManyToOne
+    @ManyToOne()
     private User user;
 
     @ManyToMany

@@ -51,8 +51,9 @@ public class FermeServiceImpl implements FermeService {
             ferme2.setNomferme(ferme.getNomferme());
             ferme2.setActiviteferme(ferme.getActiviteferme());
             ferme2.setImageferme(ferme.getImageferme());
+            ferme2.setAdresseferme(ferme.getAdresseferme());
             ferme2.setEtat(ferme.isEtat());
-            this.fermeRepository.save(ferme);
+            this.fermeRepository.save(ferme2);
 
             ReponseMessage message = new ReponseMessage("Ferme modifiée avec succès !", true);
             return message;
