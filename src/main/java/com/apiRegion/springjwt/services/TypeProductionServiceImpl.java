@@ -1,12 +1,15 @@
 package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
+import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.repository.TypeProdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 
 public class TypeProductionServiceImpl implements TypeProductionService {
@@ -32,7 +35,24 @@ public class TypeProductionServiceImpl implements TypeProductionService {
 
     @Override
     public ReponseMessage Modifier(Typeproduction typeproduction, Long idtype) {
-        return null;
+        Optional<Typeproduction> typeproduction1 = typeProdRepository.findById(idtype);
+        if(!typeproduction1.isPresent()){
+
+            ReponseMessage message = new ReponseMessage("Ce type n'est pas trouvée !", false);
+            return message;
+        }
+        else {
+
+            Typeproduction typeproduction2 = typeProdRepository.findById(idtype).get();
+            typeproduction2.setNomtype(typeproduction.getNomtype());
+
+            this.typeProdRepository.save(typeproduction2);
+
+            ReponseMessage message = new ReponseMessage("Type modifiée avec succès !", true);
+            return message;
+
+
+        }
     }
 
     @Override
@@ -42,6 +62,6 @@ public class TypeProductionServiceImpl implements TypeProductionService {
 
     @Override
     public List<Typeproduction> Lister() {
-        return null;
+        return this.typeProdRepository.findAll();
     }
 }
