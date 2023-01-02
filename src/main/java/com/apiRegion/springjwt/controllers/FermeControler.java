@@ -134,7 +134,7 @@ public class FermeControler {
         }
         else {
             this.fermeRepository.delete(ferme.get());
-            ReponseMessage message = new ReponseMessage("Région supprimé avec succès !", true);
+            ReponseMessage message = new ReponseMessage("Ferme supprimée avec succès !", true);
             return message;
         }
 

@@ -13,7 +13,7 @@ public interface ThemeService {
 
     ReponseMessage Modifier(Theme theme, Long idtheme, Long id );
 
-    ReponseMessage Supprimer(Long idtype);
+    ReponseMessage Supprimer(Long idtype, Long id);
 
     List<Theme> Lister();
 }

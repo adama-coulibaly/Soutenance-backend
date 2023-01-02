@@ -57,7 +57,17 @@ public class TypeProductionServiceImpl implements TypeProductionService {
 
     @Override
     public ReponseMessage Supprimer(Long idtype) {
-        return null;
+        Optional<Typeproduction> type = this.typeProdRepository.findById(idtype);
+        if (!type.isPresent())
+        {
+            ReponseMessage message = new ReponseMessage("Type non trouvée !", false);
+            return message;
+        }
+        else {
+            this.typeProdRepository.delete(type.get());
+            ReponseMessage message = new ReponseMessage("Type supprimé avec succès !", true);
+            return message;
+        }
     }
 
     @Override

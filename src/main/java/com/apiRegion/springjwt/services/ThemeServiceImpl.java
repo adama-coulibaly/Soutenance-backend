@@ -66,8 +66,20 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public ReponseMessage Supprimer(Long idtype) {
-        return null;
+    public ReponseMessage Supprimer(Long idtheme,Long id) {
+
+        Optional<Theme> theme = this.themeRepository.findById(idtheme);
+        Optional<User> user = userRepository.findById(id);
+        if (!theme.isPresent() && user.get().getId() == theme.get().getUser().getId())
+        {
+            ReponseMessage message = new ReponseMessage("Impossible de modifier le theme !", false);
+            return message;
+        }
+        else {
+            this.themeRepository.delete(theme.get());
+            ReponseMessage message = new ReponseMessage("Thème supprimé avec succès !", true);
+            return message;
+        }
     }
 
     @Override
