@@ -62,7 +62,7 @@ public class CommentaireServiceImpl implements CommentaireService {
     public ReponseMessage Supprimer(Long idcommentaire, Long id) {
         Optional<Commentaire> commentaire = this.commentaireRepository.findById(idcommentaire);
         Optional<User> user = userRepository.findById(id);
-        if (!commentaire.isPresent() && user.get().getId() == commentaire.get().getUser().getId())
+        if (user.get().getId() != commentaire.get().getUser().getId())
         {
             ReponseMessage message = new ReponseMessage("Impossible de supprimer ce commentaire !", false);
             return message;

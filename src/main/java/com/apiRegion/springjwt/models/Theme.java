@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -21,10 +22,10 @@ public class Theme {
     private String titretheme;
     private Date dateposte;
 
-    /*
+
     @OneToMany
-    private List<Commentaire> commentaires = new ArrayList<>();
-     */
+    private Set<Commentaire> commentaires;
+
 
     @ManyToOne
     private User user;

@@ -56,6 +56,10 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
+
+	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Theme> themes;
+
 	/*
 	@OneToMany
 	private List<Ferme> fermes = new ArrayList<>();

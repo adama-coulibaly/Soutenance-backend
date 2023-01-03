@@ -20,8 +20,8 @@ public class Commentaire {
     private String descriptioncom;
     private Date datecom;
 
-
-    @ManyToOne
+    //mappedby="commentaires",  fetch = FetchType.LAZY
+    @ManyToOne()
     private Theme theme;
 
     @ManyToOne
