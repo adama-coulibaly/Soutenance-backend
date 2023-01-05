@@ -13,6 +13,14 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @Data
 public class SignupRequest {
+
+    @NotBlank
+    @Size(max = 50)
+    private String nom;
+
+    @NotBlank
+    @Size(max = 50)
+    private String prenom;
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -36,7 +44,7 @@ public class SignupRequest {
     @Size(max = 50)
     private String adresse;
 
-  
+
     public String getUsername() {
         return username;
     }

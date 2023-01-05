@@ -52,6 +52,7 @@ public class FermeServiceImpl implements FermeService {
             ferme2.setActiviteferme(ferme.getActiviteferme());
             ferme2.setImageferme(ferme.getImageferme());
             ferme2.setAdresseferme(ferme.getAdresseferme());
+            ferme2.setTaille(ferme.getTaille());
             ferme2.setEtat(ferme.isEtat());
             this.fermeRepository.save(ferme2);
 

@@ -22,6 +22,7 @@ public class Ferme {
     private String nomferme;
     private  String activiteferme;
     private String adresseferme;
+    private String taille;
     private String imageferme;
     private boolean etat = false;
 

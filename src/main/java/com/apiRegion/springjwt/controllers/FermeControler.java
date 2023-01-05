@@ -36,6 +36,7 @@ public class FermeControler {
                                   @Param("activiteferme") String activiteferme,
                                   @Param("adresseferme") String adresseferme,
                                   @Param("user_id") User user_id,
+                                  @Param("taille") String taille,
                                   @Param("file") MultipartFile file) throws IOException {
 
         Ferme ferme1 = new Ferme();
@@ -48,6 +49,7 @@ public class FermeControler {
         ferme1.setImageferme(nomfile);
         ferme1.setEtat(true);
         ferme1.setUser(user_id);
+        ferme1.setTaille(taille);
 
         System.out.println("========== "+nomfile);
         System.out.println("========== "+nomferme);
@@ -78,6 +80,7 @@ public class FermeControler {
                                   @Param("activiteferme") String activiteferme,
                                   @Param("adresseferme") String adresseferme,
                                   @Param("user_id") User user_id,
+                                  @Param("taille") String taille,
                                   @Param("etat") boolean etat,
                                   @Param("file") MultipartFile file) throws IOException {
 
@@ -91,6 +94,7 @@ public class FermeControler {
         ferme1.setImageferme(nomfile);
         ferme1.setEtat(true);
         ferme1.setUser(user_id);
+        ferme1.setTaille(taille);
         ferme1.setEtat(etat);
 
         System.out.println("Modifier ========== "+nomfile);

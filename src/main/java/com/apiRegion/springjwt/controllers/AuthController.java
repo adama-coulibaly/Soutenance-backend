@@ -55,7 +55,7 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
@@ -69,10 +69,6 @@ public class AuthController {
 												 userDetails.getId(),
 												 userDetails.getUsername(),
 												 userDetails.getEmail(),
-												/* userDetails.getAdresse(),
-												 userDetails.getPhone(), */
-
-
 												 roles));
 	}
 
@@ -126,8 +122,11 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+
 		user.setPhone(signUpRequest.getPhone());
 		user.setAdresse(signUpRequest.getAdresse());
+		user.setNom(signUpRequest.getNom());
+		user.setPrenom(signUpRequest.getPrenom());
 		user.setEtat(true);
 
 		userRepository.save(user);
