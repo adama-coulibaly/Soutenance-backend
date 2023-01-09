@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,23 +19,16 @@ public class Production {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idproduction;
-    private Date dateentrer;
-    private Date datesortie;
-    private Number quantite;
-    private boolean etat;
+    private LocalDate dateentrer;
+    private LocalDate datesortie;
+    private int quantite;
+    private boolean etat = true;
 
 
     @ManyToMany
-    private List<Ferme> ferme;
+    private List<Ferme> ferme = new ArrayList<>();
 
     @ManyToOne
-    private Typeproduction typeproduction;
+    private Typeproduction typeproduction ;
 
-/*
-    @OneToMany
-    private List<Entretien> entretiens = new ArrayList<>();
-
-    @OneToMany
-    private List<Mortalite> mortalites = new ArrayList<>();
-    */
 }

@@ -144,4 +144,13 @@ public class FermeControler {
 
     }
 
+    // ICI ON RECUPERE LES FERMES D'UN SEUL UTILISATEUR
+
+    @GetMapping("/UserFermes/{user_id}")
+    public List<Ferme> mesFermes(@PathVariable("user_id") User user_id){
+        return this.fermeRepository.findByUser(user_id);
+    }
+
+
+
 }

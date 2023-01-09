@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import com.apiRegion.springjwt.payload.response.JwtResponse;
 import com.apiRegion.springjwt.security.jwt.JwtUtils;
+import com.apiRegion.springjwt.services.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,8 @@ import com.apiRegion.springjwt.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+	@Autowired
+	private EmailSenderService senderService;
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -66,10 +69,14 @@ public class AuthController {
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(new JwtResponse(jwt,
-												 userDetails.getId(),
-												 userDetails.getUsername(),
-												 userDetails.getEmail(),
-												 roles));
+				userDetails.getId(),
+				userDetails.getUsername(),
+				userDetails.getEmail(),
+				userDetails.getNom(),
+				userDetails.getPrenom(),
+				userDetails.getAdresse(),
+				roles
+		));
 	}
 
 	@PostMapping("/signup")
@@ -107,8 +114,8 @@ public class AuthController {
 					roles.add(adminRole);
 
 					break;
-				case "mod":
-					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+				case "superadmin":
+					Role modRole = roleRepository.findByName(ERole.ROLE_SUPER_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Erreur: Role n'est pas trouvé."));
 					roles.add(modRole);
 
@@ -120,17 +127,21 @@ public class AuthController {
 				}
 			});
 		}
-
 		user.setRoles(roles);
 
-		user.setPhone(signUpRequest.getPhone());
+
+		//user.setPhone(signUpRequest.getPhone());
 		user.setAdresse(signUpRequest.getAdresse());
 		user.setNom(signUpRequest.getNom());
 		user.setPrenom(signUpRequest.getPrenom());
 		user.setEtat(true);
 
-		userRepository.save(user);
+		// senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Nous vous remercions pour votre inscription ! " +user.getNom());
 
+		userRepository.save(user);
 		return ResponseEntity.ok(new MessageResponse("Compte crée avec succès!"));
 	}
+
+
+
 }

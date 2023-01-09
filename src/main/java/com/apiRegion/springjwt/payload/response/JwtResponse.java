@@ -2,19 +2,26 @@ package com.apiRegion.springjwt.payload.response;
 
 import java.util.List;
 
+
 public class JwtResponse {
 	private String token;
 	private String type = "Bearer";
 	private Long id;
 	private String username;
+	private String nom;
+	private String prenom;
 	private String email;
+	String adresse;
 	private List<String> roles;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse, List<String> roles) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
+		this.nom =  nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
 		this.roles = roles;
 	}
 
@@ -60,5 +67,16 @@ public class JwtResponse {
 
 	public List<String> getRoles() {
 		return roles;
+	}
+
+	public String getPrenom() {
+		return  prenom;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+	public String getAdresse() {
+		return adresse;
 	}
 }

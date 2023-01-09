@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.apiRegion.springjwt.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
@@ -20,18 +21,29 @@ public class UserDetailsImpl implements UserDetails {
 	private String username;
 
 	private String email;
+	private String nom;
+	private String prenom;
+
+	private String adresse;
+
+
+
+
 
 	@JsonIgnore
 	private String password;
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(Long id, String username, String email, String password,
+	public UserDetailsImpl(Long id, String username, String email, String password,String nom,String prenom,String adresse,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
 		this.authorities = authorities;
 	}
 
@@ -44,7 +56,10 @@ public class UserDetailsImpl implements UserDetails {
 				user.getId(), 
 				user.getUsername(), 
 				user.getEmail(),
-				user.getPassword(), 
+				user.getPassword(),
+				user.getNom(),
+				user.getPrenom(),
+				user.getAdresse(),
 				authorities);
 	}
 
@@ -100,4 +115,18 @@ public class UserDetailsImpl implements UserDetails {
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
 	}
+
+
+
+	public String getPrenom() {
+		return  prenom;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+	public String getAdresse() {
+		return adresse;
+	}
+
 }

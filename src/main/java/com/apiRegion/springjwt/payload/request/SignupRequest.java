@@ -30,15 +30,17 @@ public class SignupRequest {
     @Email
     private String email;
     
-    private Set<String> role;
+    private Set<String> roles;
     
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
-
+/*
     @NotBlank
     @Size(max = 50)
     private String phone;
+
+ */
 
     @NotBlank
     @Size(max = 50)
@@ -70,10 +72,10 @@ public class SignupRequest {
     }
     
     public Set<String> getRole() {
-      return this.role;
+      return this.roles;
     }
     
     public void setRole(Set<String> role) {
-      this.role = role;
+      this.roles = role;
     }
 }
