@@ -1,21 +1,44 @@
 package com.apiRegion.springjwt.payload.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.validation.constraints.NotBlank;
 
+
 public class LoginRequest {
+
 	@NotBlank
+	private String usernameOrEmail;
+
+/*	@NotBlank
 	private String email;
+
+ */
 
 	@NotBlank
 	private String password;
 
-	public String getEmail() {
+
+
+
+	public String getUsernameOrEmail(){
+		return usernameOrEmail;
+	}
+	public void setUsernameOrEmail(String usernameOrEmail){
+		this.usernameOrEmail = usernameOrEmail;
+	}
+	/*public String getEmail() {
 		return email;
 	}
 
 	public void setUsername(String email) {
 		this.email = email;
 	}
+
+	 */
 
 	public String getPassword() {
 		return password;
@@ -24,4 +47,6 @@ public class LoginRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
 }

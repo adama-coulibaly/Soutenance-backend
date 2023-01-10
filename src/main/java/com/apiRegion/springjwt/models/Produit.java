@@ -25,4 +25,7 @@ public class Produit {
 
     @ManyToMany
     private List<Production> productions = new ArrayList<>();
+
+    @ManyToOne
+    private  Panier panier;
 }
