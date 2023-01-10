@@ -43,7 +43,7 @@ public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 			roleRepository.addRoleToUser();
 		}
 
-		senderService.sendSimpleEmail("coulibalyadamabekaye03@gmail.com","Mot de passe super admin","Bienvenue sur la plateforme my farmed. Nous avons le plaisir de vous annoncez votre mot de passe : "+password);
+	//	senderService.sendSimpleEmail("coulibalyadamabekaye03@gmail.com","Mot de passe super admin","Bienvenue sur la plateforme my farmed. Nous avons le plaisir de vous annoncez votre mot de passe : "+password);
 
 
 	}
