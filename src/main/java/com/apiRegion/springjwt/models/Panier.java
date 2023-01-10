@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,6 +21,11 @@ public class Panier {
 
         @OneToOne
         private User user;
+
+
+        @ManyToMany
+        private List<Produit> produits = new ArrayList<>();
+
 
 
 

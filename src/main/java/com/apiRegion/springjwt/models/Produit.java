@@ -18,14 +18,18 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idproduit;
     private String nomproduit;
+    private String reference;
     private String descriptionproduit;
     private String phtoproduit;
-    private boolean etat;
+    private boolean etat = true;
 
 
     @ManyToMany
-    private List<Production> productions = new ArrayList<>();
+    private List<Ferme> fermes = new ArrayList<>();
 
-    @ManyToOne
-    private  Panier panier;
+    /*@ManyToOne()
+    private Panier panier;
+
+     */
+
 }
