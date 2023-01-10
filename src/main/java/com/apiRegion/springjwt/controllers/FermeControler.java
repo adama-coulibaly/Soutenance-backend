@@ -153,4 +153,24 @@ public class FermeControler {
 
 
 
+    @PatchMapping("/etat/{idferme}")
+    public ReponseMessage SetEtat(@RequestBody Ferme ferme,@PathVariable("idferme") Long idferme){
+        if(this.fermeRepository.findById(idferme) == null){
+
+            ReponseMessage message = new ReponseMessage("Ferme n'existe pas !", false);
+            return message;
+        }
+        else{
+
+
+           return this.fermeService.SetEtat(ferme,idferme);
+        }
+    }
+
+
+
+
+
+
+
 }

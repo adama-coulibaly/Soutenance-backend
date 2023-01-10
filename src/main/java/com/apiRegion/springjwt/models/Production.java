@@ -29,6 +29,8 @@ public class Production {
     private List<Ferme> ferme = new ArrayList<>();
 
     @ManyToOne
-    private Typeproduction typeproduction ;
+    private Typeproduction typeproduction;
+
+
 
 }

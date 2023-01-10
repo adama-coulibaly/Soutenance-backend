@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,4 +21,8 @@ public class Produit {
     private String descriptionproduit;
     private String phtoproduit;
     private boolean etat;
+
+
+    @ManyToMany
+    private List<Production> productions = new ArrayList<>();
 }

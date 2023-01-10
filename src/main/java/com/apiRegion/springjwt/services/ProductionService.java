@@ -9,9 +9,11 @@ public interface ProductionService {
 
     ReponseMessage Ajouter(Production production, Typeproduction typeproduction, Ferme idferme);
 
-    ReponseMessage Modifier(Production production,  Long id );
+    ReponseMessage Modifier(Production production,  Long idproduction);
 
-    ReponseMessage Supprimer(Long idproduit, Long id);
+    ReponseMessage SetEtat(Production production,  Long idproduction);
+
+    ReponseMessage Supprimer(Long idproduit);
 
     List<Theme> Lister();
 }

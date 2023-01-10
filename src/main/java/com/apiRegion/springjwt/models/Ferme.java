@@ -30,8 +30,7 @@ public class Ferme {
     @ManyToOne()
     private User user;
 
-    @ManyToMany
-    private List<Produit> produits;
+
 
 
 }
