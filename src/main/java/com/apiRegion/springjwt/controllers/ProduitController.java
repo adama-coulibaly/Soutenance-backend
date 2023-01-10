@@ -120,8 +120,6 @@ public class ProduitController {
             return message;
         }
         else{
-
-
             return this.produitService.SetEtat(produit,idproduit);
         }
     }

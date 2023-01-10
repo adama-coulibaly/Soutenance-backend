@@ -48,10 +48,11 @@ public class ProduitServiceImpl implements ProduitService {
             produit2.setNomproduit(produit.getNomproduit());
             produit2.setReference(produit.getReference());
             produit2.setEtat(produit.isEtat());
+            produit2.setPhtoproduit(produit.getPhtoproduit());
 
             this.produitRepository.save(produit2);
 
-            ReponseMessage message = new ReponseMessage("Ferme modifiée avec succès !", true);
+            ReponseMessage message = new ReponseMessage("Produit modifiée avec succès !", true);
             return message;
 
 
