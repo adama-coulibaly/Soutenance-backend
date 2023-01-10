@@ -20,6 +20,14 @@
 	</properties>
 
 	<dependencies>
+<!-- SMS SENDER DEPENDENCY -->
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>7.44.0</version>
+		</dependency>
+
+
 <!-- DEPENDANCE DE SEND EMAIL -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

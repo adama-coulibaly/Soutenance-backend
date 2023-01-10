@@ -5,6 +5,7 @@ import com.apiRegion.springjwt.models.Theme;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.ThemeRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
+import com.apiRegion.springjwt.services.SmsService;
 import com.apiRegion.springjwt.services.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,14 @@ public class ThemeController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SmsService smsService;
+
     // ========================================= AJOUTER UN THEME
     @PostMapping("/ajouter/{id}")
     public ReponseMessage ajouter(@RequestBody Theme theme, @PathVariable("id") User id){
-
+        smsService.sendSms("+22376621307","Test d'envoi SMS");
+        System.out.println("SMS envoter");
         return this.themeService.Ajouter(theme,id);
     }
   // ========================================= MODIFIER UN THEMES
