@@ -2,6 +2,7 @@ package com.apiRegion.springjwt.controllers;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.ConfigImage;
+import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.FermeRepository;
@@ -59,9 +60,11 @@ public class FermeControler {
 
         if(fermeRepository.findByNomferme(nomferme) == null){
 
-            String uploaDir = "C:/Users/adcoulibaly/Desktop/Adama/CLONES_API/SoutenanceODC/Backend/Api-Regions-Originale/src/main/resources/images";
+           /* String uploaDir = "C:/Users/adcoulibaly/Desktop/Adama/CLONES_API/SoutenanceODC/Backend/Api-Regions-Originale/src/main/resources/images";
             ConfigImage.saveimg(uploaDir, nomfile, file);
 
+            */
+        ferme1.setImageferme(SaveImage.save(file,ferme1.getImageferme()));
             return fermeService.Ajouter(ferme1,user_id);
             //ReponseMessage message = new ReponseMessage("Ferme ajoutée avec succès",true);
             // message;
@@ -85,7 +88,7 @@ public class FermeControler {
                                   @Param("file") MultipartFile file) throws IOException {
 
         Ferme ferme1 = new Ferme();
-        String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+        String nomfile = StringUtils.cleanPath(file.getName());
 
         ferme1.setNomferme(nomferme);
 
@@ -104,10 +107,7 @@ public class FermeControler {
 
 
         if(fermeRepository.findById(idferme) != null){
-
-            String uploaDir = "C:/Users/adcoulibaly/Desktop/Adama/CLONES_API/SoutenanceODC/Backend/Api-Regions-Originale/src/main/resources/images";
-            ConfigImage.saveimg(uploaDir, nomfile, file);
-
+            ferme1.setImageferme(SaveImage.save(file,nomfile));
             return fermeService.Modifier(ferme1,idferme);
 
         }else {

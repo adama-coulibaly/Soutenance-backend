@@ -24,10 +24,10 @@ public class Produit {
     private boolean etat = true;
 
 
-    @ManyToMany
+   @ManyToMany
     private List<Ferme> fermes = new ArrayList<>();
-
-    /*@ManyToOne()
+ /*
+    @ManyToOne()
     private Panier panier;
 
      */
