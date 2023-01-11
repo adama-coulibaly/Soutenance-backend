@@ -158,19 +158,14 @@ public class AuthController {
 		}
 }
 @PatchMapping("/modifierAvatar/{id}")
-public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file, @PathVariable("id") Long id){
-
-	if(userRepository.findById(id)== null){
-
-		ReponseMessage message = new ReponseMessage("Compte modifier avec succès",false);
-		return message;
-	}
-	else{
-		User use = userRepository.findById(id).get();
+public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
+									 @PathVariable("id") Long id){
+		User user = new User();
 		String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-		use.setAvatar(SaveImage.save(file,use.getAvatar()));
-		return userModifier.ModifierAvatar(nomfile,id);
-	}
+
+		user.setAvatar(SaveImage.save(file, nomfile));
+
+		return userModifier.ModifierAvatar(user, id);
 
 	}
 

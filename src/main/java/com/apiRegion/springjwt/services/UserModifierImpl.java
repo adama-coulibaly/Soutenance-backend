@@ -40,19 +40,19 @@ public class UserModifierImpl implements UserModifier {
     }
 
     @Override
-    public ReponseMessage ModifierAvatar(String image, Long id) {
+    public ReponseMessage ModifierAvatar(User user, Long id) {
 
-        if(userRepository.findById(id) == null){
-            ReponseMessage message = new ReponseMessage("Cet utilisateur n'existe pas !",false);
+        if(userRepository.findById(id) != null){
+            User user1 = userRepository.findById(id).get();
+
+            user1.setAvatar(user.getAvatar());
+            userRepository.save(user1);
+            ReponseMessage message = new ReponseMessage("Image modifiée avec succès !",true);
             return message;
         }
         else{
-            User user1 = userRepository.findById(id).get();
 
-            user1.setAvatar(image);
-
-            this.userRepository.save(user1);
-            ReponseMessage message = new ReponseMessage("Image modifiée avec succès !",true);
+            ReponseMessage message = new ReponseMessage("Image non trouver !",true);
             return message;
 
         }

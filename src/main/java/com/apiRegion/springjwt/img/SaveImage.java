@@ -1,5 +1,49 @@
 package com.apiRegion.springjwt.img;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+
+import org.springframework.web.multipart.MultipartFile;
+
+public class SaveImage {
+    public static String localhost = "http://127.0.0.1/";
+    public static String serveruser = localhost + "FermesImages/";
+    public static String userLocation = "C:/xamppO/htdocs/FermesImages/";
+
+    public static String save(MultipartFile file, String fileName) {
+        String src = "";
+        String server = "";
+        String location = "";
+
+        location = userLocation;
+        server = serveruser;
+
+        try {
+            Path filePath = Paths.get(location + fileName);
+
+            if (!Files.exists(filePath)) {
+                Files.createDirectories(filePath.getParent());
+                Files.copy(file.getInputStream(), filePath);
+                src = server + fileName;
+            } else {
+                Files.delete(filePath);
+                Files.copy(file.getInputStream(), filePath);
+                src = server + fileName;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            src = null;
+        }
+
+        return src;
+    }
+}
+/*
+package com.apiRegion.springjwt.img;
+
 
 
 import java.io.IOException;
@@ -35,7 +79,7 @@ public class SaveImage {
                 // si le fichier n'existe pas deja
                 Files.createDirectories(chemin);
                 Files.copy(file.getInputStream(), chemin
-                        .resolve(nomFichier + file.getOriginalFilename().substring(index).toLowerCase()));
+                        .resolve(nomFichier + file.getOriginalFilename()+file.getOriginalFilename().substring(index).toLowerCase()));
                 src = server + nomFichier
                         + file.getOriginalFilename()+ file.getOriginalFilename().substring(index).toLowerCase();
             } else {
@@ -48,7 +92,8 @@ public class SaveImage {
                     Files.copy(file.getInputStream(), chemin
                             .resolve(
                                     nomFichier +file.getOriginalFilename()+ file.getOriginalFilename().substring(index).toLowerCase()));
-                    src = server + nomFichier + file.getOriginalFilename().substring(index).toLowerCase();
+                    src = server + nomFichier +file.getOriginalFilename()
+                            + file.getOriginalFilename().substring(index).toLowerCase();
                 } else {
                     // si le fichier existe pas deja on le suprime et le recrèe
 
@@ -56,7 +101,7 @@ public class SaveImage {
 
                     Files.copy(file.getInputStream(), chemin
                             .resolve(
-                                    nomFichier + file.getOriginalFilename().substring(index).toLowerCase()));
+                                    nomFichier + file.getOriginalFilename()+ file.getOriginalFilename().substring(index).toLowerCase()));
                     src = server + nomFichier
                             +file.getOriginalFilename()+ file.getOriginalFilename().substring(index).toLowerCase();
                 }
@@ -71,4 +116,4 @@ public class SaveImage {
         return src;
     }
 
-}
+}*/
