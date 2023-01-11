@@ -11,10 +11,12 @@ public class JwtResponse {
 	private String nom;
 	private String prenom;
 	private String email;
-	String adresse;
+	private String adresse;
+
+	private String avatar;
 	private List<String> roles;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse,String avatar, List<String> roles) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
@@ -22,6 +24,7 @@ public class JwtResponse {
 		this.nom =  nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
+		this.avatar = avatar;
 		this.roles = roles;
 	}
 
@@ -78,5 +81,8 @@ public class JwtResponse {
 	}
 	public String getAdresse() {
 		return adresse;
+	}
+	public String getAvatar() {
+		return avatar;
 	}
 }

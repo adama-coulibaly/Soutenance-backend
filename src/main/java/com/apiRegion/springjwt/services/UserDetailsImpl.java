@@ -26,6 +26,8 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String adresse;
 
+	private String avatar;
+
 
 
 
@@ -35,7 +37,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(Long id, String username, String email, String password,String nom,String prenom,String adresse,
+	public UserDetailsImpl(Long id, String username, String email, String password,String nom,String prenom,String adresse,String avatar,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
@@ -44,6 +46,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
+		this.avatar = avatar;
 		this.authorities = authorities;
 	}
 
@@ -60,6 +63,7 @@ public class UserDetailsImpl implements UserDetails {
 				user.getNom(),
 				user.getPrenom(),
 				user.getAdresse(),
+				user.getAvatar(),
 				authorities);
 	}
 
@@ -128,5 +132,7 @@ public class UserDetailsImpl implements UserDetails {
 	public String getAdresse() {
 		return adresse;
 	}
+	public String getAvatar(){return avatar;}
+
 
 }

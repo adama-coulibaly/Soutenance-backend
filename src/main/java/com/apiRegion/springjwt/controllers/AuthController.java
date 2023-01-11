@@ -7,21 +7,22 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.apiRegion.springjwt.Message.ReponseMessage;
+import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.payload.response.JwtResponse;
 import com.apiRegion.springjwt.security.jwt.JwtUtils;
 import com.apiRegion.springjwt.services.EmailSenderService;
+import com.apiRegion.springjwt.services.UserModifier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import com.apiRegion.springjwt.models.ERole;
 import com.apiRegion.springjwt.models.Role;
@@ -32,6 +33,7 @@ import com.apiRegion.springjwt.payload.response.MessageResponse;
 import com.apiRegion.springjwt.repository.RoleRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.services.UserDetailsImpl;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -44,6 +46,9 @@ public class AuthController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	private UserModifier userModifier;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -75,6 +80,7 @@ public class AuthController {
 				userDetails.getNom(),
 				userDetails.getPrenom(),
 				userDetails.getAdresse(),
+				userDetails.getAvatar(),
 				roles
 		));
 	}
@@ -128,12 +134,10 @@ public class AuthController {
 			});
 		}
 		user.setRoles(roles);
-
-
-		//user.setPhone(signUpRequest.getPhone());
 		user.setAdresse(signUpRequest.getAdresse());
 		user.setNom(signUpRequest.getNom());
 		user.setPrenom(signUpRequest.getPrenom());
+		user.setAvatar("http://127.0.0.1/FermesImages/avatar.jpg");
 		user.setEtat(true);
 
 		// senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Nous vous remercions pour votre inscription ! " +user.getNom());
@@ -142,6 +146,32 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("Compte crée avec succès!"));
 	}
 
+@PutMapping("/modifier/{id}")
+	public ReponseMessage Modifier(@Valid @RequestBody User loginRequest,@PathVariable("id") Long id){
 
+		if(userRepository.findById(id)== null){
+			ReponseMessage message = new ReponseMessage("Compte non trouvé",false);
+			return message;
+		}
+		else{
+			 return userModifier.Modifier(loginRequest,id );
+		}
+}
+@PatchMapping("/modifierAvatar/{id}")
+public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file, @PathVariable("id") Long id){
+
+	if(userRepository.findById(id)== null){
+
+		ReponseMessage message = new ReponseMessage("Compte modifier avec succès",false);
+		return message;
+	}
+	else{
+		User use = userRepository.findById(id).get();
+		String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+		use.setAvatar(SaveImage.save(file,use.getAvatar()));
+		return userModifier.ModifierAvatar(nomfile,id);
+	}
+
+	}
 
 }

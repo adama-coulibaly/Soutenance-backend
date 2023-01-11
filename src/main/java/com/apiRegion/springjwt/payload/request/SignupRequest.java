@@ -46,6 +46,8 @@ public class SignupRequest {
     @Size(max = 50)
     private String adresse;
 
+    private String avatar;
+
 
     public String getUsername() {
         return username;

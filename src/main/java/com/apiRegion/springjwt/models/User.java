@@ -41,12 +41,6 @@ public class User {
 	@NotBlank
 	@Size(max = 50)
 	private String email;
-/*
-	@NotBlank
-	@Size(max = 50)
-	private String phone;
-
- */
 
 	@NotBlank
 	@Size(max = 50)
@@ -55,6 +49,8 @@ public class User {
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+
+	private String avatar;
 
 	private boolean etat;
 
@@ -68,13 +64,7 @@ public class User {
 	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Theme> themes;
 
-	/*
-	@OneToMany
-	private List<Ferme> fermes = new ArrayList<>();
-	@OneToMany
-	private List<Theme> themes = new ArrayList<>();
 
-	 */
 
 	public User() {
 	}
