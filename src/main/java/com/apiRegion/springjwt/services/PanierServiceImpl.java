@@ -18,31 +18,25 @@ public class PanierServiceImpl implements PanierService {
     @Override
     public ReponseMessage Ajouter(Panier panier, Produit produit, User user) {
 
-      /*  Optional<Panier>  panier1 = panierRepository.findByProduits(produit);
-       if(!panier1.isPresent()){
 
-       */
+        Panier panier2 = panierRepository.findByProduitsAndUser(produit, user);
+        Boolean panier3 = panierRepository.existsByProduitsAndUser(produit,user);
+
+        if(!panier3){
+
             panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produit.getPrix()));
             panierRepository.save(panier);
             ReponseMessage message = new ReponseMessage("Produit ajouté au panier", true);
             return message;
-     /*  }
+        }
         else {
-            Optional<Panier> p = panierRepository.findByUser(user);
-            p.get().setTotalproduit(p.get().getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
-              //  p.get().(p.getTotalproduit() + (produit.getPrix() * panier.getQuantite()));
-             //   p.setQuantite(p.getQuantite() + panier.getQuantite());
-                p.get().setQuantite(p.get().getQuantite() + panier.getQuantite());
-             //   p.getProduits().add(produit);
-
-                panierRepository.save(p.get());
-                ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
-                return message;
-            }
-
-      */
-
+            panier2.setTotalproduit(panier2.getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
+            panier2.setQuantite(panier2.getQuantite() + panier.getQuantite());
+            panierRepository.save(panier2);
+            ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
+            return message;
+        }
 }
 }
