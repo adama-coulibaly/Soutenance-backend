@@ -21,6 +21,7 @@ public class Produit {
     private String reference;
     private String descriptionproduit;
     private String phtoproduit;
+    private Long prix;
     private boolean etat = true;
 
 

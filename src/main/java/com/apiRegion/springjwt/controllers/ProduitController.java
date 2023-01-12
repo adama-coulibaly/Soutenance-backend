@@ -35,6 +35,7 @@ public class ProduitController {
                                   @Param("reference") String reference,
                                   @Param("idferme") Ferme ferme,
                                   @Param("descriptionproduit") String descriptionproduit,
+                                  @Param("prix") Long prix,
                                   @Param("file") MultipartFile file) throws IOException {
 
         Produit produit1 = new Produit();
@@ -44,6 +45,7 @@ public class ProduitController {
         produit1.setDescriptionproduit(descriptionproduit);
         produit1.setReference(reference);
         produit1.setPhtoproduit(nomfile);
+        produit1.setPrix(prix);
         //ferme.setProduits();
         produit1.setEtat(true);
 
@@ -68,6 +70,7 @@ public class ProduitController {
                                   @Param("reference") String reference,
                                   @Param("idferme") Ferme ferme,
                                   @Param("descriptionproduit") String descriptionproduit,
+                                  @Param("prix") Long prix,
                                   @Param("file") MultipartFile file) throws IOException {
 
         Produit produit1 = new Produit();
@@ -77,6 +80,7 @@ public class ProduitController {
         produit1.setDescriptionproduit(descriptionproduit);
         produit1.setReference(reference);
         produit1.setPhtoproduit(nomfile);
+        produit1.setPrix(prix);
         produit1.setEtat(true);
 
         if(produitRepository.findByReference(reference) == null){

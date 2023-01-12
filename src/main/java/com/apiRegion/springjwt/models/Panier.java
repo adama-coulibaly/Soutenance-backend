@@ -17,7 +17,8 @@ public class Panier {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long idpanier;
-        private Integer nombreproduit;
+        private Long quantite;
+        private Long totalproduit;
 
         @OneToOne
         private User user;

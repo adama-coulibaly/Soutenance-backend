@@ -49,6 +49,7 @@ public class ProduitServiceImpl implements ProduitService {
             produit2.setReference(produit.getReference());
             produit2.setEtat(produit.isEtat());
             produit2.setPhtoproduit(produit.getPhtoproduit());
+            produit2.setPrix(produit.getPrix());
 
             this.produitRepository.save(produit2);
 
