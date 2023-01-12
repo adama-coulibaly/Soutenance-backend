@@ -20,11 +20,11 @@ public class Panier {
         private Long quantite;
         private Long totalproduit;
 
-        @OneToOne
+        @OneToOne(cascade = CascadeType.DETACH)
         private User user;
 
 
-        @ManyToMany
+        @ManyToMany(cascade = CascadeType.DETACH)
         private List<Produit> produits = new ArrayList<>();
 
 

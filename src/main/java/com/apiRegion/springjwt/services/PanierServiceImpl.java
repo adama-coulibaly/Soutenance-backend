@@ -17,13 +17,10 @@ public class PanierServiceImpl implements PanierService {
 
     @Override
     public ReponseMessage Ajouter(Panier panier, Produit produit, User user) {
-
-
-        Panier panier2 = panierRepository.findByProduitsAndUser(produit, user);
+        Panier  panier2 = panierRepository.findByProduitsAndUser(produit, user);
         Boolean panier3 = panierRepository.existsByProduitsAndUser(produit,user);
 
         if(!panier3){
-
             panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produit.getPrix()));
@@ -39,4 +36,15 @@ public class PanierServiceImpl implements PanierService {
             return message;
         }
 }
+
+    @Override
+    public ReponseMessage Supprimer(Panier panier, Produit produit, User user) {
+
+        Panier  panier1 = panierRepository.findByProduitsAndUser(produit, user);
+        Boolean panier2 = panierRepository.existsByProduitsAndUser(produit,user);
+
+        panierRepository.delete(panier1);
+        ReponseMessage message = new ReponseMessage("Produit supprimer du panier",true);
+        return message;
+    }
 }

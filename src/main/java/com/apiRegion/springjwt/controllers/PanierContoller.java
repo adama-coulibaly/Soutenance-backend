@@ -5,6 +5,7 @@ import com.apiRegion.springjwt.models.Panier;
 import com.apiRegion.springjwt.models.Produit;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.PanierRepository;
+import com.apiRegion.springjwt.repository.ProduitRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.services.PanierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,10 @@ public class PanierContoller {
     private UserRepository userRepository;
     @Autowired
     private PanierRepository panierRepository;
+    @Autowired
+    private ProduitRepository produitRepository;
 
+    //   ICI ON AJOUTE UN PRODUIT AU PANIER
     @PostMapping("/ajouter/{produit}/{user}")
     public ReponseMessage Ajouter(@RequestBody Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
 
@@ -38,7 +42,8 @@ public class PanierContoller {
            ReponseMessage message = new ReponseMessage("Impossible d'ajouté au panier",false);
            return message;
        }
-}
+
+}   //   ICI ON AJOUTE UN PRODUIT AU PANIER EN PRECISANT LE NOMBRE DE PRODUITS
 
     @PostMapping("/modifierquantite/{produit}/{user}")
     public ReponseMessage AjouterModifier(@RequestBody Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
@@ -57,14 +62,31 @@ public class PanierContoller {
     }
 
 
+    @DeleteMapping("/supprimer/{panier}/{produit}/{user}")
+    public ReponseMessage Supprimer(@PathVariable("panier") Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
+
+        if(panierRepository.findById(panier.getIdpanier()) != null && userRepository.findById(user.getId()) != null && produitRepository.findById(produit.getIdproduit()) != null ) {
+
+            return  panierService.Supprimer(panier,produit,user);
+        }else {
+            ReponseMessage message = new ReponseMessage("Impossible de supprimer",false);
+            return message;
+        }
+    }
 
 
 
 
 
+
+    @GetMapping("/panierUserTotal/{id}")
+    public Object detailPanier(@PathVariable("id") Long id){
+        return panierRepository.detail(id);
+
+    }
 
     @GetMapping("/panierParUser/{users}")
-    public Optional<Panier> panierParUsers(@PathVariable("users") User user){
+    public List<Panier> panierParUsers(@PathVariable("users") User user){
         return panierRepository.findByUser(user);
 
     }

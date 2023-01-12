@@ -93,7 +93,7 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
-    public List<Theme> Lister() {
-        return null;
+    public List<Production> Lister() {
+        return productionRepository.findAll();
     }
 }

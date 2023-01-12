@@ -17,7 +17,7 @@ public interface ProductionRepository extends JpaRepository<Production, Long> {
      public Production findByDateentrer(LocalDate dateentrer);
      public Production findByDatesortie(LocalDate dateentrer);
 
-     public Production findByFerme(Ferme ferme);
+     public List<Production> findByFerme(Ferme ferme);
 
 
 }

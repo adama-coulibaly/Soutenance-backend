@@ -96,13 +96,19 @@ public class ProductionController {
 
         }
 
-
-
     }
 
 
 
+@GetMapping("/lister")
+public List<Production> mesProductions(){
+        return productionService.Lister();
+}
 
+    @GetMapping("/listerParFerme/{ferme}")
+    public List<Production> mesProductionsParFerme(@PathVariable("ferme") Ferme ferme){
+        return productionRepository.findByFerme(ferme);
+    }
 
 
 
