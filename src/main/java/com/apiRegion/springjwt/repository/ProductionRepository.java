@@ -2,6 +2,7 @@ package com.apiRegion.springjwt.repository;
 
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Production;
+import com.apiRegion.springjwt.models.Status;
 import com.apiRegion.springjwt.models.Typeproduction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,7 @@ public interface ProductionRepository extends JpaRepository<Production, Long> {
      public List<Production> findByFerme(Ferme ferme);
      Boolean existsByFermeAndTypeproduction(Ferme ferme,Typeproduction typeproduction);
      Boolean existsByDateentrerAndDatesortie(LocalDate dateentrer, LocalDate datesortie);
+     List<Production> findByStatus(Status status);
 
 
 

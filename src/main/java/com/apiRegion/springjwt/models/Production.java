@@ -25,12 +25,16 @@ public class Production {
     private boolean etat = true;
 
 
-    @ManyToMany
-    private List<Ferme> ferme = new ArrayList<>();
+    @ManyToOne
+    private Ferme ferme;
 
     @ManyToOne
     private Typeproduction typeproduction;
 
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Status status;
 
 
 }

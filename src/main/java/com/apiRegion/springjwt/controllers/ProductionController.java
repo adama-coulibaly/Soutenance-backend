@@ -3,6 +3,7 @@ package com.apiRegion.springjwt.controllers;
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Production;
+import com.apiRegion.springjwt.models.Status;
 import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.repository.FermeRepository;
 import com.apiRegion.springjwt.repository.ProductionRepository;
@@ -10,6 +11,7 @@ import com.apiRegion.springjwt.services.ProductionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
 import java.util.List;
@@ -48,10 +50,15 @@ public class ProductionController {
         }
          else {
                     if(production1 != null){
-                        this.productionService.Ajouter(production,typeproduction,ferme);
-                        ReponseMessage message = new ReponseMessage("Production ajoutée avec succès  !", true);
+                        if (LocalDate.now().isEqual(production.getDateentrer())){
+                            production.setStatus(Status.ENCOURS);
+                            return this.productionService.Ajouter(production,typeproduction,ferme);
+                        }
+                        else {
+                            production.setStatus(Status.AVENIR);
+                            return this.productionService.Ajouter(production,typeproduction,ferme);
+                        }
 
-                        return message;
                     }
                     else{
                         ReponseMessage message = new ReponseMessage("Production existe !", false);
@@ -65,7 +72,7 @@ public class ProductionController {
 
 
 }
-    @PatchMapping("/modifier/{idproduction}")
+    @PutMapping("/modifier/{idproduction}")
     public ReponseMessage Modifier(@RequestBody Production production,@PathVariable("idproduction") Long idproduction){
 
         Period intervalle = Period.between(production.getDateentrer(),production.getDatesortie());
@@ -91,10 +98,10 @@ public class ProductionController {
             }
             else {
 
-            }   this.productionService.Modifier(production,idproduction);
-            ReponseMessage message = new ReponseMessage("Production modifier avec succsès !", true);
-            return message;
-
+                this.productionService.Modifier(production, idproduction);
+                ReponseMessage message = new ReponseMessage("Production modifier avec succsès !", true);
+                return message;
+            }
         }
 
     }
@@ -116,21 +123,32 @@ public List<Production> mesProductions(){
 
 
     @PatchMapping("/etat/{idproduction}")
-    public ReponseMessage SetEtat(@RequestBody Production production,@PathVariable("idproduction") Long idproduction){
-        if(this.productionRepository.findById(idproduction) == null){
+    public ReponseMessage SetEtat(@RequestBody Production production,@PathVariable("idproduction") Long idproduction) {
+        if (this.productionRepository.findById(idproduction) == null) {
 
             ReponseMessage message = new ReponseMessage("Production n'existe pas !", false);
             return message;
-        }
-        else{
+        } else {
 
-            this.productionService.SetEtat(production,idproduction);
+            this.productionService.SetEtat(production, idproduction);
             ReponseMessage message = new ReponseMessage("Etat modifier avec succsès !", true);
             return message;
+        }
     }
-}
+        @PatchMapping("/status/{idproduction}")
+        public ReponseMessage setStatus(@RequestBody Production production,@PathVariable("idproduction") Long idproduction) {
+            if (this.productionRepository.findById(idproduction) == null) {
 
+                ReponseMessage message = new ReponseMessage("Production n'existe pas !", false);
+                return message;
+            } else {
 
+                this.productionService.setStatus(production, idproduction);
+                ReponseMessage message = new ReponseMessage("Status modifier avec succsès !", true);
+                return message;
+            }
+
+        }
 
     }
 

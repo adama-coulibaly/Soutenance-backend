@@ -10,6 +10,7 @@ public interface ProductionService {
     ReponseMessage Ajouter(Production production, Typeproduction typeproduction, Ferme idferme);
 
     ReponseMessage Modifier(Production production,  Long idproduction);
+    ReponseMessage setStatus(Production production,  Long idproduction);
 
     ReponseMessage SetEtat(Production production,  Long idproduction);
 

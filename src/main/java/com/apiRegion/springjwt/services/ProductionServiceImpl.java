@@ -1,10 +1,7 @@
 package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
-import com.apiRegion.springjwt.models.Ferme;
-import com.apiRegion.springjwt.models.Production;
-import com.apiRegion.springjwt.models.Theme;
-import com.apiRegion.springjwt.models.Typeproduction;
+import com.apiRegion.springjwt.models.*;
 import com.apiRegion.springjwt.repository.ProductionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +21,10 @@ public class ProductionServiceImpl implements ProductionService {
       //  Boolean dates = productionRepository.existsByDateentrerAndDatesortie(production.getDateentrer(),production.getDatesortie());
         Boolean typeprodeFerme = productionRepository.existsByFermeAndTypeproduction(ferme,typeproduction);
 
-        if(typeprodeFerme){
+
+        if(!typeprodeFerme){
             production.setTypeproduction(typeproduction);
-            production.getFerme().add(ferme);
+            production.setFerme(ferme);
             productionRepository.save(production);
             ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
             return message;
@@ -56,6 +54,7 @@ public class ProductionServiceImpl implements ProductionService {
            production2.setQuantite(production.getQuantite());
            production2.setTypeproduction(production.getTypeproduction());
            production2.setEtat(production.isEtat());
+          // production2.setStatus(production2.getStatus());
 
            if(production.getDateentrer().isAfter(production.getDatesortie())){
                ReponseMessage message = new ReponseMessage("Veuillez donnez une date correcte !", false);
@@ -70,6 +69,8 @@ public class ProductionServiceImpl implements ProductionService {
                return message;
            }
            else {
+
+               production2.setStatus(production.getStatus());
                this.productionRepository.save(production2);
                ReponseMessage message = new ReponseMessage("Production modifiée avec succès !", true);
                return message;
@@ -78,6 +79,15 @@ public class ProductionServiceImpl implements ProductionService {
 
         }
 
+    }
+
+    @Override
+    public ReponseMessage setStatus(Production production, Long idproduction) {
+        Production p = productionRepository.findById(idproduction).get();
+        p.setStatus(production.getStatus());
+        this.productionRepository.save(production);
+        ReponseMessage message = new ReponseMessage("Status modifiée avec succès !", true);
+        return message;
     }
 
     @Override
