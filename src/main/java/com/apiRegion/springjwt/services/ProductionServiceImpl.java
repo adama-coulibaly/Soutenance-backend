@@ -18,21 +18,33 @@ public class ProductionServiceImpl implements ProductionService {
     @Override
     public ReponseMessage Ajouter(Production production, Typeproduction typeproduction, Ferme ferme) {
 
-      //  Boolean dates = productionRepository.existsByDateentrerAndDatesortie(production.getDateentrer(),production.getDatesortie());
-        Boolean typeprodeFerme = productionRepository.existsByFermeAndTypeproduction(ferme,typeproduction);
+       //Boolean dates = productionRepository.existsByDateentrerAndDatesortie(production.getDateentrer(),production.getDatesortie());
+        //Boolean typeprodeFerme = productionRepository.existsByFermeAndTypeproduction(ferme,typeproduction);
+     //   Optional<Production> prod = productionRepository.findByFerme(ferme);
+        List<Production> typeprodeFerme = productionRepository.findByDateentrerAndDatesortieAndFerme(production.getDateentrer(),production.getDatesortie(),ferme);
 
 
-        if(!typeprodeFerme){
-            production.setTypeproduction(typeproduction);
-            production.setFerme(ferme);
-            productionRepository.save(production);
-            ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
-            return message;
-        }
-        else{
+      //  if(!dates){
+
+            if(typeprodeFerme.size() == 0){
+
+                production.setTypeproduction(typeproduction);
+                production.setFerme(ferme);
+                productionRepository.save(production);
+                ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
+                return message;
+            }
+            else {  ReponseMessage message = new ReponseMessage("Existe !", false);
+                return message;}
+
+
+
+      /*  else{
             ReponseMessage message = new ReponseMessage("Production existe déjà !", false);
             return message;
         }
+
+       */
 
 
 
