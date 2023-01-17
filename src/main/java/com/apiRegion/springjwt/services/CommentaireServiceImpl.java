@@ -5,6 +5,7 @@ import com.apiRegion.springjwt.models.Commentaire;
 import com.apiRegion.springjwt.models.Theme;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.CommentaireRepository;
+import com.apiRegion.springjwt.repository.ThemeRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class CommentaireServiceImpl implements CommentaireService {
     private CommentaireRepository commentaireRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ThemeRepository themeRepository;
 
 
 
@@ -30,6 +33,9 @@ public class CommentaireServiceImpl implements CommentaireService {
         commentaire.setTheme(idtheme);
         commentaire.setDatecom(new Date());
         commentaire.setUser(user_id);
+        Theme t = themeRepository.findById(idtheme.getIdtheme()).get();
+        t.setNbreCommentaire(t.getNbreCommentaire()+1);
+
         commentaireRepository.save(commentaire);
         ReponseMessage message = new ReponseMessage("Commenté evec succès !",true);
         return message;

@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/production")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ProductionController {
     @Autowired
     private ProductionService productionService;

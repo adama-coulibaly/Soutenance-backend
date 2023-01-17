@@ -5,29 +5,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Theme {
+public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idtheme;
-    private String titretheme;
-    private Date dateposte;
-    private Long nbreCommentaire = Long.valueOf(0);
-
+    private Long idcommande;
+    private LocalDate datecommande;
+    private String codecommande;
+    private Long quantitecommande;
+    private Long montanttotal;
+    private String status;
 
     @OneToMany
-    private Set<Commentaire> commentaires;
-
+    private List<Panier> paniers ;
 
     @ManyToOne
     private User user;
+
 }

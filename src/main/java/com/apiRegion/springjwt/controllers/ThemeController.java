@@ -8,12 +8,14 @@ import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.services.SmsService;
 import com.apiRegion.springjwt.services.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(path = "/theme")
 public class ThemeController {
 
@@ -57,6 +59,8 @@ public class ThemeController {
   }
 
  // ========================================= LISTER LES THEMES
+
+
     @GetMapping("/liste")
     public List<Theme> lister(){
         return themeService.Lister();

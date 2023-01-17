@@ -20,6 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/produit")
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 public class ProduitController {
 
     @Autowired

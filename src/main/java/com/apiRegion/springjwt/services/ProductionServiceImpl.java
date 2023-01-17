@@ -21,13 +21,23 @@ public class ProductionServiceImpl implements ProductionService {
     @Override
     public ReponseMessage Ajouter(Production production, Typeproduction typeproduction, Ferme ferme) {
 
-       production.setTypeproduction(typeproduction);
-       production.getFerme().add(ferme);
-       // production.setIdproduction(typeproduction.getIdtype());
+      //  Boolean dates = productionRepository.existsByDateentrerAndDatesortie(production.getDateentrer(),production.getDatesortie());
+        Boolean typeprodeFerme = productionRepository.existsByFermeAndTypeproduction(ferme,typeproduction);
 
-        productionRepository.save(production);
-        ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
-        return message;
+        if(typeprodeFerme){
+            production.setTypeproduction(typeproduction);
+            production.getFerme().add(ferme);
+            productionRepository.save(production);
+            ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
+            return message;
+        }
+        else{
+            ReponseMessage message = new ReponseMessage("Production existe déjà !", false);
+            return message;
+        }
+
+
+
     }
 
     @Override

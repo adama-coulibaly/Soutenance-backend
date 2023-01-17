@@ -30,7 +30,4 @@ public class Ferme {
     @ManyToOne()
     private User user;
 
-
-
-
 }

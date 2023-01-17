@@ -1,7 +1,6 @@
 package com.apiRegion.springjwt.controllers;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
-import com.apiRegion.springjwt.img.ConfigImage;
 import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.User;
@@ -19,6 +18,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/ferme")
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 public class FermeControler {
 
     @Autowired
@@ -119,6 +120,7 @@ public class FermeControler {
 
 
     ////================================================= LISTER TOUS LES FERMES
+   // @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping("/lister")
     public List<Ferme> lister(){
         return fermeService.Lister();
@@ -149,6 +151,14 @@ public class FermeControler {
     @GetMapping("/UserFermes/{user_id}")
     public List<Ferme> mesFermes(@PathVariable("user_id") User user_id){
         return this.fermeRepository.findByUser(user_id);
+    }
+
+
+    // ICI ON RECUPERE LES INFORMATION D'UNE FERMES D'UN SEUL UTILISATEUR
+
+    @GetMapping("/infoferme/{idferme}")
+    public Optional<Ferme> Fermes(@PathVariable("idferme") Ferme ferme){
+        return this.fermeRepository.findById(ferme.getIdferme());
     }
 
 
