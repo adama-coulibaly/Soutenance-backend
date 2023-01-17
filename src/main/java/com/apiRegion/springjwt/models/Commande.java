@@ -24,8 +24,8 @@ public class Commande {
     private Long montanttotal;
     private String status;
 
-    @OneToMany
-    private List<Panier> paniers ;
+    @OneToOne
+    private Panier paniers ;
 
     @ManyToOne
     private User user;

@@ -18,15 +18,8 @@ public class ProductionServiceImpl implements ProductionService {
     @Override
     public ReponseMessage Ajouter(Production production, Typeproduction typeproduction, Ferme ferme) {
 
-       //Boolean dates = productionRepository.existsByDateentrerAndDatesortie(production.getDateentrer(),production.getDatesortie());
-        //Boolean typeprodeFerme = productionRepository.existsByFermeAndTypeproduction(ferme,typeproduction);
-     //   Optional<Production> prod = productionRepository.findByFerme(ferme);
-        List<Production> typeprodeFerme = productionRepository.findByDateentrerAndDatesortieAndFerme(production.getDateentrer(),production.getDatesortie(),ferme);
-
-
-      //  if(!dates){
-
-            if(typeprodeFerme.size() == 0){
+    List<Production> typeprodeFerme = productionRepository.findByDateentrerAndDatesortieAndFerme(production.getDateentrer(),production.getDatesortie(),ferme);
+       if(typeprodeFerme.size() == 0){
 
                 production.setTypeproduction(typeproduction);
                 production.setFerme(ferme);
@@ -36,19 +29,7 @@ public class ProductionServiceImpl implements ProductionService {
             }
             else {  ReponseMessage message = new ReponseMessage("Existe !", false);
                 return message;}
-
-
-
-      /*  else{
-            ReponseMessage message = new ReponseMessage("Production existe déjà !", false);
-            return message;
-        }
-
-       */
-
-
-
-    }
+   }
 
     @Override
     public ReponseMessage Modifier(Production production, Long id) {
@@ -66,7 +47,6 @@ public class ProductionServiceImpl implements ProductionService {
            production2.setQuantite(production.getQuantite());
            production2.setTypeproduction(production.getTypeproduction());
            production2.setEtat(production.isEtat());
-          // production2.setStatus(production2.getStatus());
 
            if(production.getDateentrer().isAfter(production.getDatesortie())){
                ReponseMessage message = new ReponseMessage("Veuillez donnez une date correcte !", false);

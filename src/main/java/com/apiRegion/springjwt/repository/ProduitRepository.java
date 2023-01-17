@@ -12,4 +12,5 @@ public interface ProduitRepository extends JpaRepository<Produit, Long > {
 
     public Produit findByReference(String reference);
     public List<Produit> findByFermes(Ferme ferme);
+  //  Produit findByProduit(Produit produit);
 }

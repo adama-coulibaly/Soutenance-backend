@@ -22,6 +22,7 @@ public class Produit {
     private String descriptionproduit;
     private String phtoproduit;
     private Long prix;
+    private Long quantiteVente;
     private boolean etat = true;
 
 
