@@ -114,7 +114,7 @@ public List<Production> mesProductions(){
 }
 
     @GetMapping("/listerParFerme/{ferme}")
-    public Optional<Production> mesProductionsParFerme(@PathVariable("ferme") Ferme ferme){
+    public List<Production> mesProductionsParFerme(@PathVariable("ferme") Ferme ferme){
         return productionRepository.findByFerme(ferme);
     }
 

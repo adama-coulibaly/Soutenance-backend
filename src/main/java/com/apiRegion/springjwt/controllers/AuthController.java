@@ -194,7 +194,7 @@ public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
 		//	return new ResponseEntity<String>("Email non fourni", HttpStatus.BAD_REQUEST);
 		}
 		userModifier.resetPassword(user);
-		ReponseMessage message = new ReponseMessage("Un mail vous à été envoyer",true);
+		ReponseMessage message = new ReponseMessage("Un mail vous à été envoyer contenant un code de réinitialisation",true);
 		return message;
 
 		//return new ResponseEntity<String>("Email envoyé!", HttpStatus.OK);
