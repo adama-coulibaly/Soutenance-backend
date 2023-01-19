@@ -1,5 +1,6 @@
 package com.apiRegion.springjwt.controllers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,16 +11,19 @@ import javax.validation.Valid;
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.payload.response.JwtResponse;
+import com.apiRegion.springjwt.security.EmailConstructor;
 import com.apiRegion.springjwt.security.jwt.JwtUtils;
 import com.apiRegion.springjwt.services.EmailSenderService;
 import com.apiRegion.springjwt.services.UserModifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +51,7 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
+
 	@Autowired
 	private UserModifier userModifier;
 
@@ -58,6 +63,13 @@ public class AuthController {
 
 	@Autowired
     JwtUtils jwtUtils;
+
+
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	EmailConstructor emailConstructor;
+
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -168,5 +180,68 @@ public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
 		return userModifier.ModifierAvatar(user, id);
 
 	}
+
+
+
+	//::::::::::::::::::::::::::::::REINITIALISER PASSWORD::::::::::::::::::::::::::::::::::::::::::://
+
+	@PostMapping("/resetPassword/{email}")
+	public ReponseMessage resetPassword(@PathVariable("email") String email) {
+		User user = userRepository.findByEmail(email);
+		if (user == null) {
+			ReponseMessage message = new ReponseMessage("Mail incorrect !",false);
+			return message;
+		//	return new ResponseEntity<String>("Email non fourni", HttpStatus.BAD_REQUEST);
+		}
+		userModifier.resetPassword(user);
+		ReponseMessage message = new ReponseMessage("Un mail vous à été envoyer",true);
+		return message;
+
+		//return new ResponseEntity<String>("Email envoyé!", HttpStatus.OK);
+	}
+
+	//::::::::::::::::::::::::::::::::::::::::Changer mot de passe:::::::::::::::::::::::::::::::::::::::::::::::://
+
+	@PostMapping("/changePassword")
+	public ReponseMessage changePassword(@RequestBody HashMap<String, String> request) {
+		String emailOrNumero = request.get("emailOrNumero");
+		User user = userRepository.findByUsername(emailOrNumero);
+
+		if (user == null) {
+			ReponseMessage message = new ReponseMessage("Utilisateur non fourni !",false);
+			return message;
+			//return new ResponseEntity<>("Utilisateur non fourni!", HttpStatus.BAD_REQUEST);
+		}
+		String currentPassword = request.get("currentpassword");
+		String newPassword = request.get("newpassword");
+		String confirmpassword = request.get("confirmpassword");
+		if (!newPassword.equals(confirmpassword)) {
+			ReponseMessage message = new ReponseMessage("Mot de passe incorrect",false);
+			return message;
+			//return new ResponseEntity<>("PasswordNotMatched", HttpStatus.BAD_REQUEST);
+		}
+		String userPassword = user.getPassword();
+		try {
+			if (newPassword != null && !newPassword.isEmpty() && !StringUtils.isEmpty(newPassword)) {
+				if (bCryptPasswordEncoder.matches(currentPassword, userPassword)) {
+				//	System.out.println("Je suis vraiment okkkkkkkkkkkkkkkkkki");
+					userModifier.updateUserPassword(user, newPassword);
+				}
+			} else {
+				ReponseMessage message = new ReponseMessage("Code incorrect",false);
+				return message;
+				//return new ResponseEntity<>("IncorrectCurrentPassword", HttpStatus.BAD_REQUEST);
+			}
+			userModifier.updateUserPassword(user, newPassword);
+			ReponseMessage message = new ReponseMessage("Mot de passe changé avec succès !",true);
+			return message;
+			//return new ResponseEntity<>("Mot de passe changé avec succès!", HttpStatus.OK);
+		} catch (Exception e) {
+			ReponseMessage message = new ReponseMessage("Erreur",false);
+			return message;
+			//return new ResponseEntity<>("Error Occured: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 }

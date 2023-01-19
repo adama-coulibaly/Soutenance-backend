@@ -3,7 +3,11 @@ package com.apiRegion.springjwt.services;
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.UserRepository;
+import com.apiRegion.springjwt.security.EmailConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,13 @@ public class UserModifierImpl implements UserModifier {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private EmailConstructor emailConstructor;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public ReponseMessage Modifier(User user, Long id) {
 
@@ -57,4 +68,31 @@ public class UserModifierImpl implements UserModifier {
 
         }
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void resetPassword(User user) {
+        String password = RandomStringUtils.randomAlphanumeric(10);
+        String encryptedPassword = bCryptPasswordEncoder.encode(password);
+        user.setPassword(encryptedPassword);
+        userRepository.save(user);
+        mailSender.send(emailConstructor.constructResetPasswordEmail(user, password));
+    }
+
+    @Override
+    public void updateUserPassword(User user, String newPassword) {
+        String encryptedPassword = bCryptPasswordEncoder.encode(newPassword);
+        user.setPassword(encryptedPassword);
+        userRepository.save(user);
+        mailSender.send(emailConstructor.constructResetPasswordEmail(user, newPassword));
+
+    }
+
+
+
+
 }
