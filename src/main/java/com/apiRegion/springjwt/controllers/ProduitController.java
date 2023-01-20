@@ -1,11 +1,9 @@
 package com.apiRegion.springjwt.controllers;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
-import com.apiRegion.springjwt.img.ConfigImage;
 import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Produit;
-import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.FermeRepository;
 import com.apiRegion.springjwt.repository.ProduitRepository;
 import com.apiRegion.springjwt.services.ProduitService;
@@ -17,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/produit")
@@ -117,7 +116,10 @@ public class ProduitController {
     }
 
 
-
+    @GetMapping("/listerParid/{idproduit}")
+    public Optional<Produit> listerParId(@PathVariable("idproduit") Long produit){
+        return produitRepository.findById(produit);
+    }
 
 
 
