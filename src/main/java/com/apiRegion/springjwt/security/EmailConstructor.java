@@ -1,5 +1,6 @@
 package com.apiRegion.springjwt.security;
 
+import com.apiRegion.springjwt.models.Formation;
 import com.apiRegion.springjwt.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -23,10 +24,11 @@ public class EmailConstructor {
     @Autowired
     private TemplateEngine templateEngine;
 
-    public MimeMessagePreparator constructNewUserEmail(User user) {
+    public MimeMessagePreparator newformationEmail(User user, Formation formation) {
         Context context = new Context();
         context.setVariable("user", user);
-        String text = templateEngine.process("newUserEmailTemplate", context);
+        context.setVariable("formation", formation);
+        String text = templateEngine.process("newformationTemplates", context);
         MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {

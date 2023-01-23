@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/panier")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class PanierContoller {
     @Autowired
     private PanierService panierService;

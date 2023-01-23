@@ -4,9 +4,11 @@ import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Formation;
+import com.apiRegion.springjwt.models.NotificationSender;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.FermeRepository;
 import com.apiRegion.springjwt.repository.FormationRepository;
+import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.services.FermeService;
 import com.apiRegion.springjwt.services.FormationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,8 @@ public class FormationController {
 
     @Autowired
     private FormationRepository formationRepository;
+    @Autowired
+    private NotificationSenderRepository notificationSenderRepository;
 
 
     ////================================================AJOUTER UNE FERME
@@ -37,6 +42,8 @@ public class FormationController {
     @PostMapping("/ajouter")
     public ReponseMessage ajouter(@Param("titreforlation") String titreforlation,
                                   @Param("dureformation") String dureformation,
+                                  @Param("description") String description,
+                                  @Param("urlformation") String urlformation,
                                   @Param("user_id") User user_id,
                                   @Param("file") MultipartFile file) throws IOException {
 
@@ -46,12 +53,16 @@ public class FormationController {
         formation.setTitreformation(titreforlation);
         formation.setDureformation(dureformation);
         formation.setPhotoformation(nomfile);
+        formation.setDescription(description);
+        formation.setUrlformation(urlformation);
         formation.setEtat(true);
         formation.getUsers().add(user_id);
 
         if(formationRepository.findByTitreformation(titreforlation) == null){
 
             formation.setPhotoformation(SaveImage.save(file,formation.getPhotoformation()));
+            NotificationSender notificationSender = new NotificationSender(LocalDate.now(),formation.getTitreformation(),"Une nouvelle formation sur "+formation.getTitreformation());
+            notificationSenderRepository.save(notificationSender);
             return formationService.Ajouter(formation,user_id);
             //ReponseMessage message = new ReponseMessage("Ferme ajoutée avec succès",true);
             // message;
@@ -68,6 +79,8 @@ public class FormationController {
             @PathVariable("idformation") Long idformation,
             @Param("titreforlation") String titreforlation,
             @Param("dureformation") String dureformation,
+            @Param("description") String description,
+            @Param("urlformation") String urlformation,
             @Param("user_id") User user_id,
             @Param("etat") boolean etat,
             @Param("file") MultipartFile file) throws IOException {
@@ -77,6 +90,8 @@ public class FormationController {
 
         formation.setTitreformation(titreforlation);
         formation.setDureformation(dureformation);
+        formation.setDescription(description);
+        formation.setUrlformation(urlformation);
         formation.setEtat(etat);
 
 
@@ -88,15 +103,18 @@ public class FormationController {
             ReponseMessage message = new ReponseMessage("Cette formation n'existe pas",false);
             return message;
         }
-
     }
-
-
     ////================================================= LISTER TOUS LES FERMES
     // @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping("/lister")
     public List<Formation> lister(){
         return formationService.Lister();
+    }
+
+
+    @GetMapping("/listerId/{idformation}")
+    public Optional<Formation> lister(@PathVariable("idformation") Formation idformation){
+        return formationRepository.findById(idformation.getIdformation());
     }
 
     ////=================================================

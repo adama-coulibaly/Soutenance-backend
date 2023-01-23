@@ -22,6 +22,8 @@ public class Formation {
     private String titreformation;
     private String photoformation;
     private String dureformation;
+    private String urlformation;
+    private String description;
     private boolean etat = true;
 
     @ManyToMany

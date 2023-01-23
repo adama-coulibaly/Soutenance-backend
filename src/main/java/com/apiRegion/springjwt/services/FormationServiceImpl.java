@@ -6,7 +6,10 @@ import com.apiRegion.springjwt.models.Formation;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.FormationRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
+import com.apiRegion.springjwt.security.EmailConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,14 +25,23 @@ public class FormationServiceImpl implements FormationService {
     @Autowired
     private FormationRepository formationRepository;
 
+    @Autowired
+    EmailConstructor emailConstructor;
+    @Autowired
+    JavaMailSender mailSender;
+
     @Override
     public ReponseMessage Ajouter(Formation formation, User user_id) {
 
         if(formationRepository.findByTitreformation(formation.getTitreformation()) == null){
 
             formation.setEtat(true);
-            //formation.getUsers().add(user_id);
             formation.setDatedeposte(LocalDate.now());
+            List<User> lesinscrits = userRepository.findAll();
+
+            lesinscrits.forEach(user -> {
+               mailSender.send( emailConstructor.newformationEmail(user,formation));
+            });
             formationRepository.save(formation);
             ReponseMessage message = new ReponseMessage("Formation créer avec succès",true);
             return message;
