@@ -28,10 +28,10 @@ public class Produit {
 
    @ManyToMany
     private List<Ferme> fermes = new ArrayList<>();
- /*
-    @ManyToOne()
-    private Panier panier;
 
-     */
+    @ManyToOne()
+    private CategorieProd categorieProd;
+
+
 
 }

@@ -2,6 +2,7 @@ package com.apiRegion.springjwt.controllers;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
+import com.apiRegion.springjwt.models.CategorieProd;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Produit;
 import com.apiRegion.springjwt.repository.FermeRepository;
@@ -35,6 +36,7 @@ public class ProduitController {
     public ReponseMessage ajouter(@Param("nomproduit") String nomproduit,
                                   @Param("reference") String reference,
                                   @Param("idferme") Ferme ferme,
+                                  @Param("categorieProd") CategorieProd categorieProd,
                                   @Param("descriptionproduit") String descriptionproduit,
                                   @Param("prix") Long prix,
                                   @Param("quantiteVente") Long quantiteVente,
@@ -49,6 +51,7 @@ public class ProduitController {
         produit1.setPhtoproduit(nomfile);
         produit1.setPrix(prix);
         produit1.setQuantiteVente(quantiteVente);
+        produit1.setCategorieProd(categorieProd);
         //ferme.setProduits();
         produit1.setEtat(true);
 
@@ -113,6 +116,11 @@ public class ProduitController {
     @GetMapping("/listerParFerme/{idferme}")
     public List<Produit> listerParFerme(@PathVariable("idferme") Ferme ferme){
         return produitRepository.findByFermes(ferme);
+    }
+
+    @GetMapping("/listerParCategorie/{nomcategorie}")
+    public List<Produit> listerParC(@PathVariable("nomcategorie") CategorieProd categories){
+        return produitRepository.findByCategorieProd(categories);
     }
 
 
