@@ -98,17 +98,15 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+	public ReponseMessage registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Utilisateur existe déjà !"));
+			ReponseMessage message = new ReponseMessage("Utilisateur existe déja !",false);
+			return message;
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Erreur: Email existe déjà!"));
+			ReponseMessage message = new ReponseMessage("Email existe déjà !",false);
+			return message;
 		}
 
 		// Create new user's account
@@ -155,7 +153,8 @@ public class AuthController {
 		// senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Nous vous remercions pour votre inscription ! " +user.getNom());
 
 		userRepository.save(user);
-		return ResponseEntity.ok(new MessageResponse("Compte crée avec succès!"));
+		ReponseMessage message = new ReponseMessage("Compte crée avec succès!",true);
+		return message;
 	}
 
 @PutMapping("/modifier/{id}")
