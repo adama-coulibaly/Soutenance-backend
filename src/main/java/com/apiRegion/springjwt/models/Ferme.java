@@ -18,7 +18,6 @@ public class Ferme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idferme;
-
     private String nomferme;
     private  String activiteferme;
     private String adresseferme;
