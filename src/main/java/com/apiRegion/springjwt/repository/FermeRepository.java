@@ -14,4 +14,6 @@ public interface FermeRepository extends JpaRepository<Ferme, Long> {
     public Ferme findByNomferme(String nomferme);
 
     public List<Ferme> findByUser(User user_id);
+
+    List<Ferme> findByUserAndEtat(User user,boolean etata);
 }

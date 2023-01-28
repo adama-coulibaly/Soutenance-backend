@@ -22,7 +22,7 @@ public class FermeServiceImpl implements FermeService {
     public ReponseMessage Ajouter(Ferme ferme, User user_id) {
 
         if(fermeRepository.findByNomferme(ferme.getNomferme()) == null){
-            ferme.setEtat(false);
+            ferme.setEtat(true);
             ferme.setUser(user_id);
             fermeRepository.save(ferme);
             ReponseMessage message = new ReponseMessage("Ferme créer avec succès",true);

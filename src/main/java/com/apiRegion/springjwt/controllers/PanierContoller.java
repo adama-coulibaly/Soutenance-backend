@@ -9,6 +9,8 @@ import com.apiRegion.springjwt.repository.ProduitRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.services.PanierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -89,6 +91,29 @@ public class PanierContoller {
     @GetMapping("/panierParUser/{users}")
     public List<Panier> panierParUsers(@PathVariable("users") User user){
         return panierRepository.findByUser(user);
+
+    }
+
+
+
+
+    //@PostMapping("/ajouter/{produit}/{user}")
+    @MessageMapping("/getCart")
+    @SendTo("/panier/cart")
+    public ReponseMessage Ajouters(@RequestBody Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
+
+        if(userRepository.findById(user.getId()) != null) {
+            Long Qte =  (panier.getQuantite());
+            panier.setUser(user);
+            panier.setQuantite(1L);
+            panier.setTotalproduit((produit.getPrix()));
+            panier.getProduits().add(produit);
+
+            return  panierService.Ajouter(panier,produit,user);
+        }else {
+            ReponseMessage message = new ReponseMessage("Impossible d'ajouté au panier",false);
+            return message;
+        }
 
     }
 }

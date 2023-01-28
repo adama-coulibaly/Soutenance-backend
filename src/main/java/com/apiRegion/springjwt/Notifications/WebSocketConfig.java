@@ -13,13 +13,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/lesson");
+        config.enableSimpleBroker("/panier");
         config.setApplicationDestinationPrefixes("/app");
     }
-
+// CETTE METHODE NOUS PERMET DE DONNER  ACCES TOUTES LES ADRESSES localhost............
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/gs-guide-websocket").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
     }
 
 }

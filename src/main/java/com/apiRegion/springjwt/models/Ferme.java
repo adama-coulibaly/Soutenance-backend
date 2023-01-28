@@ -23,7 +23,7 @@ public class Ferme {
     private String adresseferme;
     private String taille;
     private String imageferme;
-    private boolean etat = false;
+    private boolean etat = true;
 
 
     @ManyToOne()

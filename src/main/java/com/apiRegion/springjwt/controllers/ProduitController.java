@@ -118,6 +118,11 @@ public class ProduitController {
         return produitRepository.findByFermes(ferme);
     }
 
+    @GetMapping("/listerParFermes/{idferme}/{etat}")
+    public List<Produit> listerParFermes(@PathVariable("idferme") Ferme ferme,@PathVariable("etat") boolean etat){
+        return produitRepository.findByFermesAndEtat(ferme,etat);
+    }
+
     @GetMapping("/listerParCategorie/{nomcategorie}")
     public List<Produit> listerParC(@PathVariable("nomcategorie") CategorieProd categories){
         return produitRepository.findByCategorieProd(categories);

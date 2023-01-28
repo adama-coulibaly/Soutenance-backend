@@ -153,6 +153,11 @@ public class FermeControler {
         return this.fermeRepository.findByUser(user_id);
     }
 
+    @GetMapping("/UserFermesEtat/{user_id}/{etat}")
+    public List<Ferme> mesFermesEtats(@PathVariable("user_id") User user_id,@PathVariable("etat") boolean etat){
+        return this.fermeRepository.findByUserAndEtat(user_id,etat);
+    }
+
 
     // ICI ON RECUPERE LES INFORMATION D'UNE FERMES D'UN SEUL UTILISATEUR
 
