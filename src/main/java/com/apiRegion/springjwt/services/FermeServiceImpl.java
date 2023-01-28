@@ -29,7 +29,7 @@ public class FermeServiceImpl implements FermeService {
             return message;
         }
         else{
-            ReponseMessage message = new ReponseMessage("Ferme existe déjà !",false);
+            ReponseMessage message = new ReponseMessage("Ce non existe déjà !",false);
             return message;
         }
 

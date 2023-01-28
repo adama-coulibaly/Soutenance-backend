@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
+
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.apiRegion.springjwt.models.ERole;
@@ -72,7 +73,7 @@ public class AuthController {
 
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
@@ -98,7 +99,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	public ReponseMessage registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+	public ReponseMessage registerUser(@Validated @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			ReponseMessage message = new ReponseMessage("Utilisateur existe déja !",false);
 			return message;
@@ -158,7 +159,7 @@ public class AuthController {
 	}
 
 @PutMapping("/modifier/{id}")
-	public ReponseMessage Modifier(@Valid @RequestBody User loginRequest,@PathVariable("id") Long id){
+	public ReponseMessage Modifier(@Validated @RequestBody User loginRequest,@PathVariable("id") Long id){
 
 		if(userRepository.findById(id)== null){
 			ReponseMessage message = new ReponseMessage("Compte non trouvé",false);

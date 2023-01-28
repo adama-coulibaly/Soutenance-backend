@@ -71,7 +71,7 @@ public class FermeControler {
             // message;
 
         }else {
-            ReponseMessage message = new ReponseMessage("Ferme existe déja",false);
+            ReponseMessage message = new ReponseMessage("Ce nom de ferme existe déja",false);
             return message;
         }
 
