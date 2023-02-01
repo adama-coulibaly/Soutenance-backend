@@ -8,7 +8,9 @@ import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.CommandeRepository;
 import com.apiRegion.springjwt.repository.PanierRepository;
 import com.apiRegion.springjwt.repository.ProduitRepository;
+import com.apiRegion.springjwt.security.EmailConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,7 +21,10 @@ import java.util.Random;
 @Service
 public class CommandeServiceImpl implements CommandeService {
     private final PanierRepository panierRepository;
-
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private EmailConstructor emailConstructor;
     @Autowired
     private CommandeRepository commandeRepository;
     private final ProduitRepository produitRepository;
@@ -40,7 +45,7 @@ public class CommandeServiceImpl implements CommandeService {
         commande.setUser(user);
         commande.setStatus("en cours");
 
-Produit p = new Produit();
+        Produit p = new Produit();
 
 
 
@@ -57,10 +62,17 @@ Produit p = new Produit();
               commande.setCodecommande(codeCommende+r.nextInt(100));
               panier1.getProduits();
 
-               System.out.println("Mes prod : "+panier1.getProduits() );
+               System.out.println("Email des fermiers: "+panier1.getProduits().get(0).getFermes().get(0).getUser().getEmail());
+               System.out.println("Produits concernés: "+panier1.getProduits().get(0).getNomproduit());
+               System.out.println("Code produits : "+panier1.getProduits().get(0).getReference());
+               System.out.println("PanierQ : "+panier1.getProduits().get(0).getQuantiteVente());
+               System.out.println("Difference : "+(panier1.getProduits().get(0).getQuantiteVente()-panier1.getQuantite()));
            }
-  //  System.out.println("Mes prod : "+);
+           System.out.println("Utilisateur "+user.getNom());
             commandeRepository.save(commande);
+          //  mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+           ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
+           return message;
 
         }
         else{
@@ -69,7 +81,7 @@ Produit p = new Produit();
             System.out.println("Utilisateur existe biensure");
             return null;
         }
-        return null;
+
 
     }
 }

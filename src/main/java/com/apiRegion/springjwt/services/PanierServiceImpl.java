@@ -5,6 +5,7 @@ import com.apiRegion.springjwt.models.Panier;
 import com.apiRegion.springjwt.models.Produit;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.PanierRepository;
+import com.apiRegion.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class PanierServiceImpl implements PanierService {
     @Autowired
     private PanierRepository panierRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ReponseMessage Ajouter(Panier panier, Produit produit, User user) {
@@ -38,10 +41,11 @@ public class PanierServiceImpl implements PanierService {
 }
 
     @Override
-    public ReponseMessage Supprimer(Panier panier, Produit produit, User user) {
+    public ReponseMessage Supprimer(Panier panier, Produit produit, Long user) {
 
-        Panier  panier1 = panierRepository.findByProduitsAndUser(produit, user);
-        Boolean panier2 = panierRepository.existsByProduitsAndUser(produit,user);
+        Optional<User> user1 = userRepository.findById(user);
+        Panier  panier1 = panierRepository.findByProduitsAndUser(produit, user1.get());
+        Boolean panier2 = panierRepository.existsByProduitsAndUser(produit,user1.get());
 
         panierRepository.delete(panier1);
         ReponseMessage message = new ReponseMessage("Produit supprimer du panier",true);

@@ -244,4 +244,11 @@ public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
 	}
 
 
+	@GetMapping("/user/{id}")
+	public Object utilisateur(@PathVariable("id") Long id){
+		return userRepository.findById(id);
+
+	}
+
+
 }

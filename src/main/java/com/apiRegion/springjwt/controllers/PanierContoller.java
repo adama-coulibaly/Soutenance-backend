@@ -66,15 +66,14 @@ public class PanierContoller {
 
 
     @DeleteMapping("/supprimer/{panier}/{produit}/{user}")
-    public ReponseMessage Supprimer(@PathVariable("panier") Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
-
-        if(panierRepository.findById(panier.getIdpanier()) != null && userRepository.findById(user.getId()) != null && produitRepository.findById(produit.getIdproduit()) != null ) {
-
-            return  panierService.Supprimer(panier,produit,user);
-        }else {
-            ReponseMessage message = new ReponseMessage("Impossible de supprimer",false);
+    public ReponseMessage Supprimer(@PathVariable("panier") Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") Long user) {
+        if(panierRepository.findById(panier.getIdpanier()) != null && userRepository.findById(user) != null && produitRepository.findById(produit.getIdproduit()) != null ) {
+                    return  panierService.Supprimer(panier,produit,user);
+       }else {
+            ReponseMessage message = new ReponseMessage("Impossible de supprimer", false);
             return message;
         }
+
     }
 
 

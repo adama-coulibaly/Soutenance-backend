@@ -111,6 +111,11 @@ public class FormationController {
         return formationService.Lister();
     }
 
+    @GetMapping("/deuxFormation")
+    public List<Formation> liste(){
+        return formationRepository.deuxFormations();
+    }
+
 
     @GetMapping("/listerId/{idformation}")
     public Optional<Formation> lister(@PathVariable("idformation") Formation idformation){
