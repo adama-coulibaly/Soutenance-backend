@@ -67,10 +67,15 @@ public class CommandeServiceImpl implements CommandeService {
                System.out.println("Code produits : "+panier1.getProduits().get(0).getReference());
                System.out.println("PanierQ : "+panier1.getProduits().get(0).getQuantiteVente());
                System.out.println("Difference : "+(panier1.getProduits().get(0).getQuantiteVente()-panier1.getQuantite()));
+
+
            }
            System.out.println("Utilisateur "+user.getNom());
             commandeRepository.save(commande);
-          //  mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+            for(Panier panier2:panier){
+                panierRepository.delete(panier2);
+            }
+            //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
            ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
            return message;
 
@@ -78,7 +83,7 @@ public class CommandeServiceImpl implements CommandeService {
         else{
             commande.setUser(user);
             commande.setDatecommande(LocalDate.now());
-            System.out.println("Utilisateur existe biensure");
+            System.out.println("Votre panier est vide !");
             return null;
         }
 

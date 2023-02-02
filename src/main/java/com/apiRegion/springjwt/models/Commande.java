@@ -24,10 +24,10 @@ public class Commande {
     private Long montanttotal;
     private String status;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     private Panier paniers ;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     private User user;
 
 }
