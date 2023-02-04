@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
+import com.apiRegion.springjwt.models.*;
 import com.apiRegion.springjwt.payload.response.JwtResponse;
+import com.apiRegion.springjwt.repository.UserStatusRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
 import com.apiRegion.springjwt.security.jwt.JwtUtils;
 import com.apiRegion.springjwt.services.EmailSenderService;
@@ -29,9 +31,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.apiRegion.springjwt.models.ERole;
-import com.apiRegion.springjwt.models.Role;
-import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.payload.request.LoginRequest;
 import com.apiRegion.springjwt.payload.request.SignupRequest;
 import com.apiRegion.springjwt.payload.response.MessageResponse;
@@ -70,6 +69,8 @@ public class AuthController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	EmailConstructor emailConstructor;
+	@Autowired
+	private UserStatusRepository userStatusRepository;
 
 
 	@PostMapping("/signin")
@@ -94,12 +95,13 @@ public class AuthController {
 				userDetails.getPrenom(),
 				userDetails.getAdresse(),
 				userDetails.getAvatar(),
+				userDetails.getStatusUser(),
 				roles
 		));
 	}
 
-	@PostMapping("/signup")
-	public ReponseMessage registerUser(@Validated @RequestBody SignupRequest signUpRequest) {
+	@PostMapping("/signup/{statusUser}")
+	public ReponseMessage registerUser(@Validated @RequestBody SignupRequest signUpRequest, @PathVariable("statusUser")StatusUser statusUser) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			ReponseMessage message = new ReponseMessage("Utilisateur existe déja !",false);
 			return message;
@@ -111,9 +113,10 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
+		User user = new User(signUpRequest.getUsername(),
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword())
+				);
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -150,6 +153,7 @@ public class AuthController {
 		user.setPrenom(signUpRequest.getPrenom());
 		user.setAvatar("http://127.0.0.1/FermesImages/avatar.jpg");
 		user.setEtat(true);
+		user.setStatusUser(statusUser);
 
 		// senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Nous vous remercions pour votre inscription ! " +user.getNom());
 
@@ -249,6 +253,12 @@ public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
 		return userRepository.findById(id);
 
 	}
+
+	@GetMapping("/statusUser")
+	public List<StatusUser> status(){
+		return userStatusRepository.findAll();
+	}
+
 
 
 }

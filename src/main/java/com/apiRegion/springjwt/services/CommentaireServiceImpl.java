@@ -30,15 +30,29 @@ public class CommentaireServiceImpl implements CommentaireService {
     @Override
     public ReponseMessage Ajouter(Commentaire commentaire,Theme idtheme, User user_id) {
 
-        commentaire.setTheme(idtheme);
-        commentaire.setDatecom(new Date());
-        commentaire.setUser(user_id);
-        Theme t = themeRepository.findById(idtheme.getIdtheme()).get();
-        t.setNbreCommentaire(t.getNbreCommentaire()+1);
+        if(commentaire.getDescriptioncom() != null){
 
-        commentaireRepository.save(commentaire);
-        ReponseMessage message = new ReponseMessage("Commenté evec succès !",true);
-        return message;
+
+        if(!commentaire.getDescriptioncom().isEmpty()){
+            commentaire.setTheme(idtheme);
+            commentaire.setDatecom(new Date());
+            commentaire.setUser(user_id);
+            Theme t = themeRepository.findById(idtheme.getIdtheme()).get();
+            t.setNbreCommentaire(t.getNbreCommentaire()+1);
+
+            commentaireRepository.save(commentaire);
+            ReponseMessage message = new ReponseMessage("Commenté evec succès !",true);
+            return message;
+        }
+        else {
+            ReponseMessage message = new ReponseMessage("Veuillez remplir le champ !", false);
+            return message;
+        }
+        }else {
+            ReponseMessage message = new ReponseMessage("Champ vide !",false);
+            return message;
+        }
+
     }
 
     @Override

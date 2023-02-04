@@ -1,5 +1,6 @@
 package com.apiRegion.springjwt.payload.request;
 
+import com.apiRegion.springjwt.models.StatusUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,16 +22,12 @@ public class SignupRequest {
     private String prenom;
 
     private String username;
- 
-
     private String email;
-    
     private Set<String> roles;
-    
+
+     private StatusUser idStatus;
 
     private String password;
-
-
 
     private String adresse;
 

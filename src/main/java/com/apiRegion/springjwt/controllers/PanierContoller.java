@@ -11,6 +11,7 @@ import com.apiRegion.springjwt.services.PanierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,13 @@ public class PanierContoller {
     //   ICI ON AJOUTE UN PRODUIT AU PANIER
     @PostMapping("/ajouter/{produit}/{user}")
     public ReponseMessage Ajouter(@RequestBody Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
+        Optional<User> use = userRepository.findById(user.getId());
+        List<Panier> panier1 = panierRepository.findByUser(user);
+       // List<Panier> paniers = panierRepository.findByUserAndEtat()
 
-       if(userRepository.findById(user.getId()) != null) {
+       if(use != null) {
+
+
            Long Qte =  (panier.getQuantite());
            panier.setUser(user);
            panier.setQuantite(1L);
@@ -51,7 +57,8 @@ public class PanierContoller {
     @PostMapping("/modifierquantite/{produit}/{user}")
     public ReponseMessage AjouterModifier(@RequestBody Panier panier, @PathVariable("produit") Produit produit, @PathVariable("user") User user) {
 
-        if(userRepository.findById(user.getId()) != null) {
+        Optional<User> use = userRepository.findById(user.getId());
+        if(use != null && use.get().isEtat() == true ) {
             Long Qte =  (panier.getQuantite());
             panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
@@ -87,9 +94,9 @@ public class PanierContoller {
 
     }
 
-    @GetMapping("/panierParUser/{users}")
-    public List<Panier> panierParUsers(@PathVariable("users") User user){
-        return panierRepository.findByUser(user);
+    @GetMapping("/panierParUser/{users}/{etat}")
+    public List<Panier> panierParUsers(@PathVariable("users") User user, @PathVariable("etat") boolean etat){
+        return panierRepository.findByUserAndEtat(user,etat);
 
     }
 

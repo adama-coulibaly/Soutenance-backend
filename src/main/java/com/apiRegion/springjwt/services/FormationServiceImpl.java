@@ -40,7 +40,7 @@ public class FormationServiceImpl implements FormationService {
             List<User> lesinscrits = userRepository.findAll();
 
             lesinscrits.forEach(user -> {
-               mailSender.send( emailConstructor.newformationEmail(user,formation));
+              // mailSender.send( emailConstructor.newformationEmail(user,formation));
             });
             formationRepository.save(formation);
             ReponseMessage message = new ReponseMessage("Formation créer avec succès",true);

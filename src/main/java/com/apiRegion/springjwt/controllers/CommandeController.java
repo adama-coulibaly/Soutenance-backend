@@ -23,18 +23,7 @@ public class CommandeController {
 
     @PostMapping("/ajouter/{id}")
     public ReponseMessage ajouter(Commande commande, @PathVariable("id") User user){
-
-
           List<Panier> panier = panierRepository.findByUser(user);
-
-           // commande.setPaniers(panier);
-            //commande.setUser(user);
-           // commande.setDatecommande(LocalDate.now());
-          //  commande.setQuantitecommande(panier.);
-          //  commande.setQuantitecommande(panier.get(1).getTotalproduit());
-
-
-
         return commandeService.ajouter(commande,user);
     }
 }

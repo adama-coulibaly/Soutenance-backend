@@ -2,6 +2,7 @@ package com.apiRegion.springjwt;
 
 import com.apiRegion.springjwt.repository.RoleRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
+import com.apiRegion.springjwt.repository.UserStatusRepository;
 import com.apiRegion.springjwt.services.EmailSenderService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -32,11 +33,14 @@ public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 	private String password = "adama12345";
 	@Autowired
 	private EmailSenderService senderService;
+	private final UserStatusRepository userStatusRepository;
 
 
-	public SpringBootSecurityJwtApplication(RoleRepository roleRepository, UserRepository userRepository) {
+	public SpringBootSecurityJwtApplication(RoleRepository roleRepository, UserRepository userRepository,
+											UserStatusRepository userStatusRepository) {
 		this.roleRepository = roleRepository;
 		this.userRepository = userRepository;
+		this.userStatusRepository = userStatusRepository;
 	}
 
 	public static void main(String[] args) {
@@ -70,6 +74,9 @@ public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 		if(userRepository.findAll().size() == 0){
 			userRepository.creationadmin(encoder.encode(password));
 			roleRepository.addRoleToUser();
+		}
+		if(userStatusRepository.findAll().size() == 0){
+			userStatusRepository.ajouterStatusUser();
 		}
 
 	//	senderService.sendSimpleEmail("coulibalyadamabekaye03@gmail.com","Mot de passe super admin","Bienvenue sur la plateforme my farmed. Nous avons le plaisir de vous annoncez votre mot de passe : "+password);

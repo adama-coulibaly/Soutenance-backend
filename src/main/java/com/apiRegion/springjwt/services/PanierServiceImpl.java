@@ -9,6 +9,7 @@ import com.apiRegion.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,25 +21,28 @@ public class PanierServiceImpl implements PanierService {
 
     @Override
     public ReponseMessage Ajouter(Panier panier, Produit produit, User user) {
-        Panier  panier2 = panierRepository.findByProduitsAndUser(produit, user);
-        Boolean panier3 = panierRepository.existsByProduitsAndUser(produit,user);
+        Boolean panier3 = panierRepository.existsByProduitsAndUserAndEtat(produit,user,true);
 
-        if(!panier3){
+
+        if(!panier3 ){
             panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produit.getPrix()));
+            panier.setEtat(true);
             panierRepository.save(panier);
             ReponseMessage message = new ReponseMessage("Produit ajouté au panier", true);
             return message;
         }
         else {
-            panier2.setTotalproduit(panier2.getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
-            panier2.setQuantite(panier2.getQuantite() + panier.getQuantite());
-            panierRepository.save(panier2);
-            ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
-            return message;
-        }
-}
+
+            panier.setTotalproduit(panier.getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
+            panier.setQuantite(panier.getQuantite() + panier.getQuantite());
+               panierRepository.save(panier);
+               ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
+               return message;
+           }
+
+    }
 
     @Override
     public ReponseMessage Supprimer(Panier panier, Produit produit, Long user) {

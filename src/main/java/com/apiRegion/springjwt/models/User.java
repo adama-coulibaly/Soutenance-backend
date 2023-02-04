@@ -54,7 +54,8 @@ public class User {
 	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Theme> themes;
 
-
+	@OneToOne
+	private StatusUser statusUser;
 
 	public User() {
 	}

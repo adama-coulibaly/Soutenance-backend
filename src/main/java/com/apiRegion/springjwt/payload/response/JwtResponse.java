@@ -1,5 +1,7 @@
 package com.apiRegion.springjwt.payload.response;
 
+import com.apiRegion.springjwt.models.StatusUser;
+
 import java.util.List;
 
 
@@ -13,10 +15,12 @@ public class JwtResponse {
 	private String email;
 	private String adresse;
 
+	private StatusUser statusUser;
+
 	private String avatar;
 	private List<String> roles;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse,String avatar, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse, String avatar, StatusUser statusUser, List<String> roles) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
@@ -26,6 +30,7 @@ public class JwtResponse {
 		this.adresse = adresse;
 		this.avatar = avatar;
 		this.roles = roles;
+		this.statusUser = statusUser;
 	}
 
 	public String getAccessToken() {
@@ -84,5 +89,9 @@ public class JwtResponse {
 	}
 	public String getAvatar() {
 		return avatar;
+	}
+
+	public StatusUser getStatusUser() {
+		return statusUser;
 	}
 }

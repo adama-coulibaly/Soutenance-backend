@@ -40,7 +40,7 @@ public class CommandeServiceImpl implements CommandeService {
         String codeCommende = "CO"+user.getNom();
         Random r = new Random(1000);
 
-        List<Panier> panier = panierRepository.findByUser(user);
+        List<Panier> panier = panierRepository.findByUserAndEtat(user,true);
         commande.setDatecommande(LocalDate.now());
         commande.setUser(user);
         commande.setStatus("en cours");
@@ -51,16 +51,18 @@ public class CommandeServiceImpl implements CommandeService {
 
         Long Totaux = 0l;
         Long TotalQ = 0l;
-        if (panier.size() != 0){
+        if (panier.size() != 0 ){
            for(Panier panier1:panier){
 
-              commande.setPaniers(panier1);
+             // commande.setPaniers(panier1);
+
               TotalQ += (panier1.getQuantite());
               Totaux+=panier1.getTotalproduit();
               commande.setMontanttotal(Totaux);
               commande.setQuantitecommande(TotalQ);
               commande.setCodecommande(codeCommende+r.nextInt(100));
               panier1.getProduits();
+              panier1.setEtat(false);
 
                System.out.println("Email des fermiers: "+panier1.getProduits().get(0).getFermes().get(0).getUser().getEmail());
                System.out.println("Produits concernés: "+panier1.getProduits().get(0).getNomproduit());
@@ -72,9 +74,11 @@ public class CommandeServiceImpl implements CommandeService {
            }
            System.out.println("Utilisateur "+user.getNom());
             commandeRepository.save(commande);
-            for(Panier panier2:panier){
-                panierRepository.delete(panier2);
+           /* for(Panier panier2:panier){
+               panier2.setEtat(false);
             }
+
+            */
             //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
            ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
            return message;

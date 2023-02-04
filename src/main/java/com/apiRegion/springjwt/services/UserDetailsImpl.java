@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.apiRegion.springjwt.models.StatusUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +29,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String avatar;
 
+	private StatusUser statusUser;
 
 
 
@@ -37,8 +39,8 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(Long id, String username, String email, String password,String nom,String prenom,String adresse,String avatar,
-			Collection<? extends GrantedAuthority> authorities) {
+	public UserDetailsImpl(Long id, String username, String email, String password, String nom, String prenom, String adresse, String avatar,
+						   StatusUser statusUser, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
@@ -48,6 +50,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.adresse = adresse;
 		this.avatar = avatar;
 		this.authorities = authorities;
+		this.statusUser = statusUser;
 	}
 
 	public static UserDetailsImpl build(User user) {
@@ -64,6 +67,7 @@ public class UserDetailsImpl implements UserDetails {
 				user.getPrenom(),
 				user.getAdresse(),
 				user.getAvatar(),
+				user.getStatusUser(),
 				authorities);
 	}
 
@@ -78,6 +82,10 @@ public class UserDetailsImpl implements UserDetails {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public StatusUser getStatusUser() {
+		return statusUser;
 	}
 
 	@Override

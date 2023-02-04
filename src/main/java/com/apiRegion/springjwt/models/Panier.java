@@ -19,6 +19,7 @@ public class Panier {
         private Long idpanier;
         private Long quantite;
         private Long totalproduit;
+        private boolean etat = true;
         @OneToOne(cascade = CascadeType.DETACH)
         private User user;
         @ManyToMany(cascade = CascadeType.DETACH)

@@ -23,9 +23,11 @@ public class Commande {
     private Long quantitecommande;
     private Long montanttotal;
     private String status;
-
+/*
     @OneToOne(cascade = CascadeType.DETACH)
     private Panier paniers ;
+
+ */
 
     @ManyToOne(cascade = CascadeType.DETACH)
     private User user;
