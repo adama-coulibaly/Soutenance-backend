@@ -27,7 +27,7 @@ public class ProductionServiceImpl implements ProductionService {
                 ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
                 return message;
             }
-            else {  ReponseMessage message = new ReponseMessage("Existe !", false);
+            else {  ReponseMessage message = new ReponseMessage("Cette production existe !", false);
                 return message;}
    }
 

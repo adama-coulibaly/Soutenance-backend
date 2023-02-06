@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RequestMapping(path = "/typeproduction")
 public class TypeProductionContoller {
 
