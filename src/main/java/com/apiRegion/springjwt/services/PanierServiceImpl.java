@@ -21,10 +21,12 @@ public class PanierServiceImpl implements PanierService {
 
     @Override
     public ReponseMessage Ajouter(Panier panier, Produit produit, User user) {
-        Boolean panier3 = panierRepository.existsByProduitsAndUserAndEtat(produit,user,true);
+        Boolean panier3 = panierRepository.existsByProduitsAndUser(produit,user);
+        Panier panier1 = panierRepository.findByProduitsAndUser(produit,user);
 
 
         if(!panier3 ){
+            System.out.println("Je suis 1 "+panier3);
             panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produit.getPrix()));
@@ -34,10 +36,10 @@ public class PanierServiceImpl implements PanierService {
             return message;
         }
         else {
-
-            panier.setTotalproduit(panier.getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
-            panier.setQuantite(panier.getQuantite() + panier.getQuantite());
-               panierRepository.save(panier);
+            System.out.println("Je suis 2 "+panier3+" "+panier1);
+            panier1.setTotalproduit(panier1.getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
+            panier1.setQuantite(panier1.getQuantite() + panier.getQuantite());
+               panierRepository.save(panier1);
                ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
                return message;
            }

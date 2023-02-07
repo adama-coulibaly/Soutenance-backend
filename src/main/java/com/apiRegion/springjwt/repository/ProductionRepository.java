@@ -27,7 +27,7 @@ public interface ProductionRepository extends JpaRepository<Production, Long> {
 
      Boolean existsByDateentrerAndDatesortie(LocalDate dateentrer, LocalDate datesortie);
      List<Production> findByDateentrerAndDatesortieAndFerme(LocalDate dateentre,LocalDate datesortie,Ferme ferme);
-     List<Production> findByStatus(Status status);
+     List<Production> findByStatusAndFerme(Status status,Ferme idferme);
 
 
 

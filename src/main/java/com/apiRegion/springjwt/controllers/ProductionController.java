@@ -150,7 +150,19 @@ public List<Production> mesProductions(){
 
         }
 
+
+        //=======================================  FILTRAGE
+    @GetMapping("/lesProdsParStatus/{status}/{ferme}")
+    public List<Production> lesProductions(@PathVariable("status") Status status,@PathVariable("ferme") Ferme ferme){
+        return productionRepository.findByStatusAndFerme(status,ferme);
     }
+
+    // LES ENUM
+    @GetMapping("/enum")
+    public Object lesENum() {
+        return Status.values();
+    }
+}
 
 
 

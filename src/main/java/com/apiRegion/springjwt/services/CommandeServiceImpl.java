@@ -74,12 +74,7 @@ public class CommandeServiceImpl implements CommandeService {
            }
            System.out.println("Utilisateur "+user.getNom());
             commandeRepository.save(commande);
-           /* for(Panier panier2:panier){
-               panier2.setEtat(false);
-            }
-
-            */
-            //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+                    //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
            ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
            return message;
 
