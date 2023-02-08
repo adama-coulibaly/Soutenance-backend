@@ -1,25 +1,23 @@
 package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
-import com.apiRegion.springjwt.models.Commande;
-import com.apiRegion.springjwt.models.Panier;
-import com.apiRegion.springjwt.models.Produit;
-import com.apiRegion.springjwt.models.User;
-import com.apiRegion.springjwt.repository.CommandeRepository;
-import com.apiRegion.springjwt.repository.PanierRepository;
-import com.apiRegion.springjwt.repository.ProduitRepository;
+import com.apiRegion.springjwt.models.*;
+import com.apiRegion.springjwt.repository.*;
 import com.apiRegion.springjwt.security.EmailConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 @Service
 public class CommandeServiceImpl implements CommandeService {
+    @Autowired
+    private HistoriqueRepository historiqueRepository;
     private final PanierRepository panierRepository;
     @Autowired
     private JavaMailSender mailSender;
@@ -28,15 +26,21 @@ public class CommandeServiceImpl implements CommandeService {
     @Autowired
     private CommandeRepository commandeRepository;
     private final ProduitRepository produitRepository;
+    private final ProductionRepository productionRepository;
 
     public CommandeServiceImpl(PanierRepository panierRepository,
-                               ProduitRepository produitRepository) {
+                               ProduitRepository produitRepository,
+                               ProductionRepository productionRepository) {
         this.panierRepository = panierRepository;
         this.produitRepository = produitRepository;
+        this.productionRepository = productionRepository;
     }
 
     @Override
     public ReponseMessage ajouter(Commande commande, User user) {
+
+        Long Difference = 0L;
+
         String codeCommende = "CO"+user.getNom();
         Random r = new Random(1000);
 
@@ -47,12 +51,25 @@ public class CommandeServiceImpl implements CommandeService {
 
         Produit p = new Produit();
 
-
-
         Long Totaux = 0l;
         Long TotalQ = 0l;
         if (panier.size() != 0 ){
            for(Panier panier1:panier){
+               Optional<Produit> produit = produitRepository.findById(panier1.getProduits().get(0).getIdproduit());
+
+               // ========================================= ICI ON AJOUTE HISTORIQUE DES VENTES
+               Historique historique = new Historique();
+               historique.setNomproduit(panier1.getProduits().get(0).getNomproduit());
+               historique.setNomclient(user.getNom());
+               historique.setPrenomclient(user.getPrenom());
+               historique.setNumeroclient(user.getUsername());
+               historique.setDatevente(new Date());
+               historique.setFerme(panier1.getProduits().get(0).getFermes().get(0));
+               historique.setQuantite(panier1.getQuantite());
+               historique.setPrixunitaire(panier1.getProduits().get(0).getPrix());
+               historique.setMontanttotal((panier1.getProduits().get(0).getPrix()) * (panier1.getQuantite()));
+               historiqueRepository.save(historique);
+
 
              // commande.setPaniers(panier1);
 
@@ -63,18 +80,15 @@ public class CommandeServiceImpl implements CommandeService {
               commande.setCodecommande(codeCommende+r.nextInt(100));
               panier1.getProduits();
               panier1.setEtat(false);
-
-               System.out.println("Email des fermiers: "+panier1.getProduits().get(0).getFermes().get(0).getUser().getEmail());
-               System.out.println("Produits concernés: "+panier1.getProduits().get(0).getNomproduit());
-               System.out.println("Code produits : "+panier1.getProduits().get(0).getReference());
-               System.out.println("PanierQ : "+panier1.getProduits().get(0).getQuantiteVente());
-               System.out.println("Difference : "+(panier1.getProduits().get(0).getQuantiteVente()-panier1.getQuantite()));
-
+               Difference = (panier1.getProduits().get(0).getQuantiteVente() - commande.getQuantitecommande());
+               produit.get().setQuantiteVente(Difference);
 
            }
-           System.out.println("Utilisateur "+user.getNom());
+
+            // ========================================= ICI ON ATTRIBUT LES VALEURS DE USER QUI PASSE LA COMMANDE
             commandeRepository.save(commande);
-                    //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+
+            //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
            ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
            return message;
 
