@@ -47,6 +47,32 @@ public class PanierServiceImpl implements PanierService {
     }
 
     @Override
+    public ReponseMessage Modifier(Panier panier, Produit produit, User user) {
+        Boolean panier3 = panierRepository.existsByProduitsAndUser(produit,user);
+        Panier panier1 = panierRepository.findByProduitsAndUser(produit,user);
+
+
+        if(!panier3 ){
+            System.out.println("Je suis 1 "+panier3);
+            panier.setUser(user);
+            panier.setQuantite(panier.getQuantite());
+            panier.setTotalproduit((produit.getPrix()));
+            panier.setEtat(true);
+            panierRepository.save(panier);
+            ReponseMessage message = new ReponseMessage("Produit ajouté au panier", true);
+            return message;
+        }
+        else {
+            System.out.println("Je suis 2 "+panier3+" "+panier1);
+            panier1.setTotalproduit((produit.getPrix()*panier.getQuantite()));
+            panier1.setQuantite(panier.getQuantite());
+            panierRepository.save(panier1);
+            ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
+            return message;
+        }
+    }
+
+    @Override
     public ReponseMessage Supprimer(Panier panier, Produit produit, Long user) {
 
         Optional<User> user1 = userRepository.findById(user);

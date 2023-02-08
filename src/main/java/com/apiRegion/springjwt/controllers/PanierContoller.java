@@ -64,7 +64,7 @@ public class PanierContoller {
             panier.setQuantite(panier.getQuantite());
             panier.setTotalproduit((produit.getPrix()));
             panier.getProduits().add(produit);
-            return  panierService.Ajouter(panier,produit,user);
+            return  panierService.Modifier(panier,produit,user);
         }else {
             ReponseMessage message = new ReponseMessage("Impossible d'ajouté au panier",false);
             return message;
