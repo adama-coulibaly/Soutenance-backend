@@ -37,12 +37,14 @@ public class PanierContoller {
         List<Panier> panier1 = panierRepository.findByUser(user);
        // List<Panier> paniers = panierRepository.findByUserAndEtat()
 
-       if(use != null) {
 
+       if(use != null) {
 
            Long Qte =  (panier.getQuantite());
            panier.setUser(user);
+
            panier.setQuantite(1L);
+
            panier.setTotalproduit((produit.getPrix()));
            panier.getProduits().add(produit);
 

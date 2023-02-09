@@ -21,11 +21,37 @@ public class PanierServiceImpl implements PanierService {
 
     @Override
     public ReponseMessage Ajouter(Panier panier, Produit produit, User user) {
+        System.out.println("Test Serv = "+panier);
+
         Boolean panier3 = panierRepository.existsByProduitsAndUser(produit,user);
-        Panier panier1 = panierRepository.findByProduitsAndUser(produit,user);
+        Boolean panier4 = panierRepository.existsByProduitsAndUserAndEtat(produit,user,true);
+     //   Panier panier1 = panierRepository.findByProduitsAndUser(produit,user);
+        Panier pa = panierRepository.findByProduitsAndUserAndEtat(produit,user,true);
+        System.out.println("Test Serv avant = "+panier);
+
+        if(!panier4 ){
+            System.out.println("Test Serv if = "+panier);
+
+            System.out.println("Je suis 1 "+panier4);
+            panier.setUser(user);
+            panier.setQuantite(panier.getQuantite());
+            panier.setTotalproduit((produit.getPrix()));
+            panier.setEtat(true);
+            panierRepository.save(panier);
+            ReponseMessage message = new ReponseMessage("Produit ajouté au panier", true);
+            return message;
+        }
+        else {
+            System.out.println("Je suis 2 "+panier4+" "+pa);
+            pa.setTotalproduit(pa.getTotalproduit() + (produit.getPrix()*panier.getQuantite()));
+            pa.setQuantite(pa.getQuantite() + panier.getQuantite());
+            panierRepository.save(pa);
+            ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
+            return message;
+        }
 
 
-        if(!panier3 ){
+        /*if(!panier3 ){
             System.out.println("Je suis 1 "+panier3);
             panier.setUser(user);
             panier.setQuantite(panier.getQuantite());
@@ -42,7 +68,7 @@ public class PanierServiceImpl implements PanierService {
                panierRepository.save(panier1);
                ReponseMessage message = new ReponseMessage("Produit ajouté au panier",true);
                return message;
-           }
+           }*/
 
     }
 

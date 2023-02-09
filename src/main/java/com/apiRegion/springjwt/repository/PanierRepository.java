@@ -19,6 +19,10 @@ public interface PanierRepository extends JpaRepository<Panier,Long> {
   //  Panier findByProduits(Produit produit);
     List<Panier> findByEtat(boolean etat);
     Panier findByProduitsAndUser(Produit produit, User user);
+
+    Panier findByProduitsAndUserAndEtat(Produit produit, User user,boolean etat);
+
+
     //Panier findByProduitsAndUserAndEtat(Produit produit, User user,boolean etat);
 
     Boolean existsByProduitsAndUser(Produit produit, User user);
