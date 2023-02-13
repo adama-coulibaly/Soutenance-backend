@@ -19,7 +19,6 @@ import com.apiRegion.springjwt.services.EmailSenderService;
 import com.apiRegion.springjwt.services.UserModifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.apiRegion.springjwt.payload.request.LoginRequest;
 import com.apiRegion.springjwt.payload.request.SignupRequest;
-import com.apiRegion.springjwt.payload.response.MessageResponse;
 import com.apiRegion.springjwt.repository.RoleRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.services.UserDetailsImpl;
@@ -257,6 +255,12 @@ public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
 	@GetMapping("/statusUser")
 	public List<StatusUser> status(){
 		return userStatusRepository.findAll();
+	}
+
+
+	@GetMapping("/tousLesUser")
+	public List<User> users(){
+		return userRepository.findAll();
 	}
 
 
