@@ -41,10 +41,16 @@ public class CommentaireController {
 
 
 //============================================== ICI ON LISTE LES COMMENTAIRES PAR THEMES
-    @GetMapping("/listepatheme/{idtheme}")
+  /*  @GetMapping("/listepatheme/{idtheme}")
     public List<Commentaire> commentairesparthemes(Theme idtheme){
         return this.commentaireRepository.findByTheme(idtheme);
+    }*/
+
+    @GetMapping("/listepatheme/{idtheme}")
+    public List<Commentaire> commentairesparthemes(Theme idtheme){
+        return this.commentaireRepository.mesCommentaires(idtheme);
     }
+
 // ============================================== MODIFIER UN COMMENTAIRE PAR SON PROPRE USER
     @PutMapping("/modifier/{idcommentaire}/{id}")
     public ReponseMessage Modifier(@RequestBody Commentaire commentaire, @PathVariable("idcommentaire") Long idtheme,  @PathVariable("id")Long id) {

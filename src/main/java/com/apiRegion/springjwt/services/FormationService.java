@@ -13,6 +13,9 @@ public interface FormationService {
 
     ReponseMessage Modifier(Formation formation, Long idformation);
 
+    ReponseMessage ModifierImage(Formation formation,Long id);
+
+
     ReponseMessage Supprimer(Long idformation);
 
     ReponseMessage SetEtat(Formation formation, Long idformation);

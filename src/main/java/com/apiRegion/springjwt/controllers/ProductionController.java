@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,6 +111,11 @@ public class ProductionController {
 public List<Production> mesProductions(){
         return productionService.Lister();
 }
+
+    @GetMapping("/listerParID/{production}")
+    public Optional<Production> uneProduction(@PathVariable("production") Production production){
+        return productionRepository.findById(production.getIdproduction());
+    }
 
     @GetMapping("/listerParFerme/{ferme}")
     public List<Production> mesProductionsParFerme(@PathVariable("ferme") Ferme ferme){

@@ -88,7 +88,7 @@ public class CommandeServiceImpl implements CommandeService {
             // ========================================= ICI ON ATTRIBUT LES VALEURS DE USER QUI PASSE LA COMMANDE
             commandeRepository.save(commande);
 
-            //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+          mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
            ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
            return message;
 

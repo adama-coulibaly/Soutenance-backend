@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/categorie")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class Categorie {
 
 

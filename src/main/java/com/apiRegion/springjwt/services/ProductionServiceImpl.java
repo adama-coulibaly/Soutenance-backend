@@ -42,11 +42,33 @@ public class ProductionServiceImpl implements ProductionService {
         else {
             Period intervalle = Period.between(production.getDateentrer(),production.getDatesortie());
             Production production2 = productionRepository.findById(id).get();
-           production2.setDatesortie(production.getDatesortie());
-           production2.setDateentrer(production.getDateentrer());
-           production2.setQuantite(production.getQuantite());
-           production2.setTypeproduction(production.getTypeproduction());
-           production2.setEtat(production.isEtat());
+
+            if(production.getDateentrer() != null){
+                production2.setDateentrer(production.getDateentrer());
+            }
+            else{
+                production2.setDateentrer(production2.getDateentrer());
+            }
+
+            if(production.getDatesortie() != null){
+                production2.setDatesortie(production.getDatesortie());
+            }
+            else{
+                production2.setDatesortie(production2.getDatesortie());
+            }
+
+            if(production.getQuantite() != 0){
+                production2.setQuantite(production.getQuantite());
+            }
+            else{
+                production2.setQuantite(production2.getQuantite());
+            }
+            if(production.getTypeproduction() != null){
+                production2.setTypeproduction(production.getTypeproduction());
+            }
+            else{
+                production2.setTypeproduction(production2.getTypeproduction());
+            }
 
            if(production.getDateentrer().isAfter(production.getDatesortie())){
                ReponseMessage message = new ReponseMessage("Veuillez donnez une date correcte !", false);
@@ -61,7 +83,6 @@ public class ProductionServiceImpl implements ProductionService {
                return message;
            }
            else {
-
                production2.setStatus(production.getStatus());
                this.productionRepository.save(production2);
                ReponseMessage message = new ReponseMessage("Production modifiée avec succès !", true);

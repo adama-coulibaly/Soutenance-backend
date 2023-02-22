@@ -39,9 +39,9 @@ public class FormationServiceImpl implements FormationService {
             formation.setDatedeposte(LocalDate.now());
             List<User> lesinscrits = userRepository.findAll();
 
-            lesinscrits.forEach(user -> {
-              // mailSender.send( emailConstructor.newformationEmail(user,formation));
-            });
+     /*       lesinscrits.forEach(user -> {
+               mailSender.send( emailConstructor.newformationEmail(user,formation));
+            });*/
             formationRepository.save(formation);
             ReponseMessage message = new ReponseMessage("Formation créer avec succès",true);
             return message;
@@ -66,7 +66,9 @@ public class FormationServiceImpl implements FormationService {
             Formation formation2 = formationRepository.findById(idformation).get();
             formation2.setTitreformation(formation.getTitreformation());
             formation2.setDureformation(formation.getDureformation());
-            formation2.setPhotoformation(formation.getPhotoformation());
+            formation2.setUrlformation(formation.getUrlformation());
+            formation2.setDescription(formation.getDescription());
+            formation2.setEtat(formation.isEtat());
 
             this.formationRepository.save(formation2);
 
@@ -76,6 +78,28 @@ public class FormationServiceImpl implements FormationService {
 
         }
     }
+
+    @Override
+    public ReponseMessage ModifierImage(Formation formation, Long id) {
+        if(formationRepository.findById(id) != null){
+            Formation formation1 = formationRepository.findById(id).get();
+
+            formation1.setPhotoformation(formation.getPhotoformation());
+            formationRepository.save(formation1);
+            ReponseMessage message = new ReponseMessage("Image modifiée avec succès !",true);
+            return message;
+        }
+        else{
+
+            ReponseMessage message = new ReponseMessage("Image non trouver !",true);
+            return message;
+
+        }
+    }
+
+
+
+
 
     @Override
     public ReponseMessage Supprimer(Long idformation) {

@@ -15,6 +15,8 @@ public interface EntretienService {
 
     ReponseMessage Supprimer(Long identretien);
 
+    ReponseMessage SupprimerPlus(List<Entretien> entretiens);
+
     List<Entretien> Lister();
 
 }

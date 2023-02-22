@@ -82,11 +82,11 @@ public class FormationController {
             @Param("description") String description,
             @Param("urlformation") String urlformation,
             @Param("user_id") User user_id,
-            @Param("etat") boolean etat,
-            @Param("file") MultipartFile file) throws IOException {
+            @Param("etat") boolean etat
+           ) throws IOException {
 
         Formation formation = new Formation();
-        String nomfile = StringUtils.cleanPath(file.getName());
+
 
         formation.setTitreformation(titreforlation);
         formation.setDureformation(dureformation);
@@ -96,7 +96,6 @@ public class FormationController {
 
 
         if(formationRepository.findById(idformation) != null){
-            formation.setPhotoformation(SaveImage.save(file,nomfile));
             return formationService.Modifier(formation,idformation);
 
         }else {
@@ -109,6 +108,12 @@ public class FormationController {
     @GetMapping("/lister")
     public List<Formation> lister(){
         return formationService.Lister();
+    }
+
+
+    @GetMapping("/listerParEtat/{etat}")
+    public List<Formation> parEtat(@PathVariable("etat") boolean etat){
+        return formationRepository.findByEtat(etat);
     }
 
     @GetMapping("/deuxFormation")
@@ -156,7 +161,17 @@ public class FormationController {
     }
 
 
+    @PatchMapping("/modifierPhoto/{id}")
+    public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
+                                         @PathVariable("id") Long id){
+        Formation formation = new Formation();
+        String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
 
+        formation.setPhotoformation(SaveImage.save(file, nomfile));
+
+        return formationService.ModifierImage(formation, id);
+
+    }
 
 
 

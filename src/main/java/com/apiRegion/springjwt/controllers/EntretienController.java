@@ -15,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/entretien")
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 public class EntretienController {
     @Autowired
     private EntretienService entretienService;
@@ -51,6 +53,13 @@ public class EntretienController {
     //  @ResponseStatus(HttpStatus.NO_CONTENT)
     public ReponseMessage supprimer(@PathVariable("identretien") Long identretien) {
         return this.entretienService.Supprimer(identretien);
+    }
+
+
+    @DeleteMapping(path = "/supprimerplus/{entretien}", name = "supprimer")
+    //  @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ReponseMessage supprimerPlus(@PathVariable("entretien")List<Entretien> entretien) {
+        return this.entretienService.SupprimerPlus(entretien);
     }
 
 }
