@@ -20,6 +20,8 @@ public class NotificationSender {
     private String titrenotification;
     private String messagenotification;
 
+    @ManyToOne
+    private User user;
 
     public NotificationSender(LocalDate now, String titreformation, String s) {
         this.datedenvoi = now;

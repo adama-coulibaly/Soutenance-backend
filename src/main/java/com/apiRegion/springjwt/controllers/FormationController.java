@@ -62,7 +62,7 @@ public class FormationController {
 
             formation.setPhotoformation(SaveImage.save(file,formation.getPhotoformation()));
             NotificationSender notificationSender = new NotificationSender(LocalDate.now(),formation.getTitreformation(),"Une nouvelle formation sur "+formation.getTitreformation());
-            notificationSenderRepository.save(notificationSender);
+           // notificationSenderRepository.save(notificationSender);
             return formationService.Ajouter(formation,user_id);
             //ReponseMessage message = new ReponseMessage("Ferme ajoutée avec succès",true);
             // message;
