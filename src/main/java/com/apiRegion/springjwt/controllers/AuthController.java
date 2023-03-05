@@ -12,6 +12,7 @@ import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
 import com.apiRegion.springjwt.models.*;
 import com.apiRegion.springjwt.payload.response.JwtResponse;
+import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.repository.UserStatusRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
 import com.apiRegion.springjwt.security.jwt.JwtUtils;
@@ -69,6 +70,8 @@ public class AuthController {
 	EmailConstructor emailConstructor;
 	@Autowired
 	private UserStatusRepository userStatusRepository;
+	@Autowired
+	private NotificationSenderRepository notificationSenderRepository;
 
 
 	@PostMapping("/signin")
@@ -153,7 +156,7 @@ public class AuthController {
 		user.setEtat(true);
 		user.setStatusUser(statusUser);
 
-		// senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Nous vous remercions pour votre inscription ! " +user.getNom());
+		senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Bonjour "+user.getNom()+" "+user.getPrenom()+" bienvenue sur la plateforme My Farme. My Farmed est une application de suivie des productions avicoles, de commercialisation des produits avicoles, de communication entre fermier et de formation dans le domaine de l'aviculture.");
 
 		userRepository.save(user);
 		ReponseMessage message = new ReponseMessage("Compte crée avec succès!",true);
@@ -263,6 +266,39 @@ public ReponseMessage ModifierAvatar(@Param("file") MultipartFile file,
 		return userRepository.findAll();
 	}
 
+// ============================================================ LES NOTIFICATION DES UTILISATEURS CONNECTES
+	@GetMapping("/userNotification/{user}/{lire}")
+	public List<NotificationSender> userNotif(@PathVariable("user") User user,@PathVariable("lire") boolean lire){
+		return notificationSenderRepository.findByUserAndLire(user,lire);
+	}
+// ============================================================ LUE UNE NOTIFICATION DES UTILISATEURS CONNECTES
+@PatchMapping("/lire/{idnotification}")
+public ReponseMessage lireNotif(@RequestBody NotificationSender notificationSender,@PathVariable("idnotification") Long idnotification){
+	if(this.notificationSenderRepository.findById(idnotification) == null){
 
+		ReponseMessage message = new ReponseMessage("Notif n'existe pas !", false);
+		return message;
+	}
+	else{
+
+
+		return this.userModifier.SetLire(notificationSender,idnotification);
+	}
+}
+
+
+
+
+	@PatchMapping("/banirUser/{id}")
+	public ReponseMessage banirUser(@RequestBody User user,@PathVariable("id") Long id){
+		if(this.userRepository.findById(id) == null){
+
+			ReponseMessage message = new ReponseMessage("Notif n'existe pas !", false);
+			return message;
+		}
+		else{
+			return this.userModifier.SetEtat(user,id);
+		}
+	}
 
 }

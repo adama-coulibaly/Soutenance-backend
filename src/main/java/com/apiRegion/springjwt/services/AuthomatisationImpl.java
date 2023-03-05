@@ -2,9 +2,11 @@ package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.controllers.ProductionController;
 import com.apiRegion.springjwt.models.Entretien;
+import com.apiRegion.springjwt.models.NotificationSender;
 import com.apiRegion.springjwt.models.Production;
 import com.apiRegion.springjwt.models.Status;
 import com.apiRegion.springjwt.repository.EntretienRepository;
+import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.repository.ProductionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,6 +30,8 @@ public class AuthomatisationImpl implements Authomatisation {
     private EntretienService entretienService;
     @Autowired
     private EntretienRepository entretienRepository;
+    @Autowired
+    private NotificationSenderRepository notificationSenderRepository;
 
     // CETTE FONCTION NOUS PERMET DE MODIFIER LE STATUS DES PRODUCTIONS EN FONCTION DE LA DATE DU JOURS
     @Scheduled(fixedDelay = 86400000)
@@ -58,10 +62,10 @@ public class AuthomatisationImpl implements Authomatisation {
 
     }
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 60000)
     @Override
     public void entretienNotification() {
-            List<Entretien> mesEntretiens = entretienRepository.findAll();
+        List<Entretien> mesEntretiens = entretienRepository.findByDateentretien(LocalDate.now());
            for(Entretien entretien:mesEntretiens){
                if(LocalDate.now().isEqual(entretien.getDateentretien())){
 
@@ -69,24 +73,16 @@ public class AuthomatisationImpl implements Authomatisation {
                    int minetesB = LocalTime.now().getHour() * 60 + LocalTime.now().getMinute();
 
                    if(minutesA == minetesB){
-                       System.out.println("OKI");
+                       NotificationSender notif = new NotificationSender();
+                       notif.setDatedenvoi(LocalDate.now());
+                       notif.setTitrenotification("Entretien du "+entretien.getDateentretien());
+                       //notif.setMessagenotification("Votre heure d'entretien : "+entretien.getTypeentretien()+" est dans 15 minutes. Soyez à l'heure !");
+                       notif.setMessagenotification("Bonjour "+entretien.getProduction().getFerme().getUser().getNom()+" "+entretien.getProduction().getFerme().getUser().getPrenom()+" votre entretien: "+entretien.getTypeentretien()+"prévu aujourd'hui à "+entretien.getHeuresentretien()+" est dans 15 minutes. Soyez à l'heure !");
+                       notif.setUser(entretien.getProduction().getFerme().getUser());
+                       notif.setLire(false);
+                       notificationSenderRepository.save(notif);
                    }
-                   else{
 
-                       System.out.println("Oups1 "+minutesA);
-                       System.out.println("Oups2 "+minetesB);
-
-                   }
-
-                /*  if(LocalTime.now().getHour() == (entretien.getHeuresentretien().getHour())){
-                      int difference = LocalTime.now().getMinute() - entretien.getHeuresentretien().getMinute();
-                      System.out.println("Difference = "+difference);
-                  }
-                  else{
-
-                      System.out.println("Oups ");
-
-                  }*/
                }
 
            }

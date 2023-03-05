@@ -19,6 +19,7 @@ public class NotificationSender {
     private LocalDate datedenvoi;
     private String titrenotification;
     private String messagenotification;
+    private boolean lire = false;
 
     @ManyToOne
     private User user;

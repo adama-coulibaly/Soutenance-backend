@@ -1,6 +1,8 @@
 package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
+import com.apiRegion.springjwt.models.Ferme;
+import com.apiRegion.springjwt.models.NotificationSender;
 import com.apiRegion.springjwt.models.Produit;
 import com.apiRegion.springjwt.models.User;
 
@@ -13,5 +15,9 @@ public interface UserModifier {
 
     public void updateUserPassword(User user, String newPassword);
 
-    User findByEmail(String userEmail);
+
+    ReponseMessage SetEtat(User user, Long id);
+
+    ReponseMessage SetLire(NotificationSender notificationSender, Long iduser);
+
 }

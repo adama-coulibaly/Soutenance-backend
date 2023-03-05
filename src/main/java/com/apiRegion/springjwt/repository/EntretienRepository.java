@@ -13,4 +13,7 @@ public interface EntretienRepository extends JpaRepository<Entretien, Long> {
 
     Boolean existsByDateentretienAndProduction(LocalDate localDate, Production production);
     List<Entretien> findByProduction(Production production);
+    List<Entretien> findByDateentretien(LocalDate date);
+
+
 }

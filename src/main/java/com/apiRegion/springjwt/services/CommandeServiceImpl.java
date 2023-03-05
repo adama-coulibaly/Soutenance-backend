@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,22 +28,25 @@ public class CommandeServiceImpl implements CommandeService {
     private CommandeRepository commandeRepository;
     private final ProduitRepository produitRepository;
     private final ProductionRepository productionRepository;
+    private final NotificationSenderRepository notificationSenderRepository;
 
     public CommandeServiceImpl(PanierRepository panierRepository,
                                ProduitRepository produitRepository,
-                               ProductionRepository productionRepository) {
+                               ProductionRepository productionRepository,
+                               NotificationSenderRepository notificationSenderRepository) {
         this.panierRepository = panierRepository;
         this.produitRepository = produitRepository;
         this.productionRepository = productionRepository;
+        this.notificationSenderRepository = notificationSenderRepository;
     }
 
     @Override
     public ReponseMessage ajouter(Commande commande, User user) {
-
+        NotificationSender notif = new NotificationSender();
         Long Difference = 0L;
-
-        String codeCommende = "CO"+user.getNom();
         Random r = new Random(1000);
+        String codeCommende = "CO"+LocalTime.now().getHour()+"-"+LocalTime.now().getMinute()+"-"+LocalTime.now().getSecond()+"-"+user.getPrenom().substring(0,2).toUpperCase();
+
 
         List<Panier> panier = panierRepository.findByUserAndEtat(user,true);
         commande.setDatecommande(LocalDate.now());
@@ -84,11 +88,17 @@ public class CommandeServiceImpl implements CommandeService {
                produit.get().setQuantiteVente(Difference);
 
            }
-
+           //=========================================== ENVOI DES NOTIFICATIONS
+            notif.setDatedenvoi(LocalDate.now());
+            notif.setUser(user);
+            notif.setTitrenotification("Commande: "+codeCommende);
+            notif.setLire(false);
+            notif.setMessagenotification("Votre commande de produits du "+LocalDate.now()+" à été envoyée avec succès. MONTANT TOTAL: "+Totaux+" QUANTITE: "+TotalQ);
+            notificationSenderRepository.save(notif);
             // ========================================= ICI ON ATTRIBUT LES VALEURS DE USER QUI PASSE LA COMMANDE
             commandeRepository.save(commande);
 
-          mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+           mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
            ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
            return message;
 

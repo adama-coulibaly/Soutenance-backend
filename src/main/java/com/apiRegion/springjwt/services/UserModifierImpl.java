@@ -1,7 +1,10 @@
 package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
+import com.apiRegion.springjwt.models.Ferme;
+import com.apiRegion.springjwt.models.NotificationSender;
 import com.apiRegion.springjwt.models.User;
+import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -10,6 +13,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserModifierImpl implements UserModifier {
@@ -25,6 +30,8 @@ public class UserModifierImpl implements UserModifier {
     private EmailConstructor emailConstructor;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private NotificationSenderRepository notificationSenderRepository;
 
     @Override
     public ReponseMessage Modifier(User user, Long id) {
@@ -69,10 +76,24 @@ public class UserModifierImpl implements UserModifier {
         }
     }
 
+
+
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+    public ReponseMessage SetLire(NotificationSender notificationSender, Long idnoyif) {
+        Optional<NotificationSender> notificationSender1 = notificationSenderRepository.findById(idnoyif);
+        if(notificationSender1.isPresent()){
+            NotificationSender notificationSender2 = notificationSenderRepository.findById(idnoyif).get();
+            notificationSender2.setLire(notificationSender.isLire());
+            this.notificationSenderRepository.save(notificationSender2);
+            ReponseMessage message = new ReponseMessage("Notification lue !", true);
+            return message;
+        }
+        else {
+            ReponseMessage message = new ReponseMessage("Non lue", false);
+            return message;
+
+
+        }    }
 
     @Override
     public void resetPassword(User user) {
@@ -92,7 +113,23 @@ public class UserModifierImpl implements UserModifier {
 
     }
 
+    @Override
+    public ReponseMessage SetEtat(User user, Long id) {
+        Optional<User> user1 = userRepository.findById(id);
+        if(user1.isPresent()){
+            User user2 = userRepository.findById(id).get();
+            user2.setEtat(user.isEtat());
+            this.userRepository.save(user2);
+            ReponseMessage message = new ReponseMessage("Etat modifiée avec succès !", true);
+            return message;
+        }
+        else {
+            ReponseMessage message = new ReponseMessage("User non modifiés !e", false);
+            return message;
 
+
+        }
+    }
 
 
 }
