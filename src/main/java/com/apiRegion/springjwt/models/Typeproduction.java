@@ -20,10 +20,5 @@ public class Typeproduction {
     private Long idtype;
     private String nomtype;
 
-/*
-    @OneToMany
-    private List<Production> productions = new ArrayList<>();
-
- */
 
 }

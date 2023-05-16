@@ -59,8 +59,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/projet/odk/Pays/**").permitAll()
-				.antMatchers("/projet/odk/Commentaire/**").permitAll()
+				.antMatchers("/commentaire/**").permitAll()
+				.antMatchers("/commande/**").permitAll()
 				.antMatchers("/ferme/**").permitAll()
+				.antMatchers("/theme/**").permitAll()
+				.antMatchers("/typeproduction/**").permitAll()
+				.antMatchers("/production/**").permitAll()
+				.antMatchers("/produit/**").permitAll()
+				.antMatchers("/mortalite/**").permitAll()
+				.antMatchers("/panier/**").permitAll()
+				.antMatchers("/entretien/**").permitAll()
+				.antMatchers("/formation/**").permitAll()
+				.antMatchers("/categorie/**").permitAll()
+				.antMatchers("/historique/**").permitAll()
+				.antMatchers("/sms/**").permitAll()
+
 			.antMatchers("/api/test/**").permitAll()
 			.anyRequest().authenticated();
 

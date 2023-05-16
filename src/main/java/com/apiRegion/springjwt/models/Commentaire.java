@@ -15,11 +15,12 @@ import java.util.Date;
 public class Commentaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idproduction;
+    private Long idcommentaire;
+
     private String descriptioncom;
     private Date datecom;
-
-
-    @ManyToOne
+    @ManyToOne()
     private Theme theme;
+    @ManyToOne
+    private User user;
 }

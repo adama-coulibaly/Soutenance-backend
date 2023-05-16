@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -16,7 +18,20 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idproduit;
     private String nomproduit;
+    private String reference;
     private String descriptionproduit;
     private String phtoproduit;
-    private boolean etat;
+    private Long prix;
+    private Long quantiteVente;
+    private boolean etat = true;
+
+
+   @ManyToMany
+    private List<Ferme> fermes = new ArrayList<>();
+
+    @ManyToOne()
+    private CategorieProd categorieProd;
+
+
+
 }

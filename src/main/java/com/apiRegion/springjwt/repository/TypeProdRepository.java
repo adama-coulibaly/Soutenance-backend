@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeProdRepository extends JpaRepository<Typeproduction, Long> {
+
+    Typeproduction findByNomtype(String nomtype);
 }

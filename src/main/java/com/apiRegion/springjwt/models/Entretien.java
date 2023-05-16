@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @Entity
 @Table
@@ -17,8 +20,8 @@ public class Entretien {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long identretien;
     private String typeentretien;
-    private String intervale;
-    private Date heuresentretien;
+    private LocalDate dateentretien;
+    private LocalTime heuresentretien;
 
 
     @ManyToOne

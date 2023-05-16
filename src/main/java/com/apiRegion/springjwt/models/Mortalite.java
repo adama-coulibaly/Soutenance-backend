@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -17,9 +18,9 @@ public class Mortalite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idmortalite;
-    private Number nombredeces;
+    private int nombredeces;
     private String causedeces;
-    private Date  date;
+    private LocalDate date;
 
 
     @ManyToOne
