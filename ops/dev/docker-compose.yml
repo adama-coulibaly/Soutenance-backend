@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  mysql:
+    container_name: mysql_db_dev_myfarmed
+    image: mysql:8.0
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    volumes:
+      - dbvolumes:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      - /home/coulibaly/Documents/Projets/Adama/Backend/Soutenance-backend/Images:/images
+    environment:
+      MYSQL_ROOT_PASSWORD: Acly23FmEd
+      MYSQL_DATABASE: myfarmed_db
+      MYSQL_USER: user07
+      MYSQL_PASSWORD: myfarmed_db+2023
+    restart: always
+    ports:
+      - 3307:3306
+
+  mail-catcher:
+    container_name: "smtp_server"
+    image: dockage/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    restart: always
+
+volumes:
+  dbvolumes: { }
+
+
+

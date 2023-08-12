@@ -1,9 +1,11 @@
 package com.apiRegion.springjwt.services;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
+import com.apiRegion.springjwt.models.CategorieFormation;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Formation;
 import com.apiRegion.springjwt.models.User;
+import com.apiRegion.springjwt.repository.CategorieFormationRepository;
 import com.apiRegion.springjwt.repository.FormationRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
@@ -21,6 +23,8 @@ public class FormationServiceImpl implements FormationService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategorieFormationRepository categorieFormationRepository;
 
     @Autowired
     private FormationRepository formationRepository;
@@ -31,13 +35,19 @@ public class FormationServiceImpl implements FormationService {
     JavaMailSender mailSender;
 
     @Override
-    public ReponseMessage Ajouter(Formation formation, User user_id) {
+    public ReponseMessage Ajouter(Formation formation, User user_id, CategorieFormation categorieFormation) {
+
 
         if(formationRepository.findByTitreformation(formation.getTitreformation()) == null){
+            CategorieFormation categorie = formationRepository.findByCategorieFormation(categorieFormation);
 
             formation.setEtat(true);
             formation.setDatedeposte(LocalDate.now());
+            formation.setCategorieFormation(categorieFormation);
             List<User> lesinscrits = userRepository.findAll();
+            categorie.setNbreTuto(categorie.getNbreTuto()+1);
+            categorieFormationRepository.save(categorie);
+
 
      /*       lesinscrits.forEach(user -> {
                mailSender.send( emailConstructor.newformationEmail(user,formation));

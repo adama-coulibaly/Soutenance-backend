@@ -1,0 +1,1 @@
+GRANT ALL PRIVILEGES ON myfarmed_db.* TO 'user07'@'%' IDENTIFIED BY 'myfarmed_db+2023';

@@ -20,7 +20,7 @@ public class JwtResponse {
 	private String avatar;
 	private List<String> roles;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse, String avatar, StatusUser statusUser, List<String> roles) {
+		public JwtResponse(String accessToken, Long id, String username, String email, String nom, String prenom, String adresse, String avatar, StatusUser statusUser, List<String> roles) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;

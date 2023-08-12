@@ -33,8 +33,8 @@ public class ThemeController {
     // ========================================= AJOUTER UN THEME
     @PostMapping("/ajouter/{id}")
     public ReponseMessage ajouter(@RequestBody Theme theme, @PathVariable("id") User id){
-       // smsService.sendSms("+22376621307","Test d'envoi SMS");
-        // System.out.println("SMS envoter");
+        //smsService.sendSms("+22370446711","Test d'envoi SMS");
+         //System.out.println("SMS envoyer");
         return this.themeService.Ajouter(theme,id);
     }
   // ========================================= MODIFIER UN THEMES

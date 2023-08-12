@@ -2,6 +2,7 @@ package com.apiRegion.springjwt.controllers;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.img.SaveImage;
+import com.apiRegion.springjwt.models.CategorieFormation;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Formation;
 import com.apiRegion.springjwt.models.NotificationSender;
@@ -40,12 +41,15 @@ public class FormationController {
     ////================================================AJOUTER UNE FERME
 
     @PostMapping("/ajouter")
-    public ReponseMessage ajouter(@Param("titreforlation") String titreforlation,
+    public ReponseMessage ajouter(
+
+                                  @Param("titreforlation") String titreforlation,
                                   @Param("dureformation") String dureformation,
                                   @Param("description") String description,
                                   @Param("urlformation") String urlformation,
                                   @Param("user_id") User user_id,
-                                  @Param("file") MultipartFile file) throws IOException {
+                                  @Param("file") MultipartFile file,
+                                  @Param("id") CategorieFormation id) throws IOException {
 
         Formation formation = new Formation();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
@@ -62,10 +66,9 @@ public class FormationController {
 
             formation.setPhotoformation(SaveImage.save(file,formation.getPhotoformation()));
             NotificationSender notificationSender = new NotificationSender(LocalDate.now(),formation.getTitreformation(),"Une nouvelle formation sur "+formation.getTitreformation());
-           // notificationSenderRepository.save(notificationSender);
-            return formationService.Ajouter(formation,user_id);
-            //ReponseMessage message = new ReponseMessage("Ferme ajoutée avec succès",true);
-            // message;
+
+            System.err.println("Le ========================== "+id.getDescription());
+            return formationService.Ajouter(formation,user_id,id);
 
         }else {
             ReponseMessage message = new ReponseMessage("Formation existe déja",false);

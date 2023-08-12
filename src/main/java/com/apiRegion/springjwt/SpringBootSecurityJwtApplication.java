@@ -1,6 +1,8 @@
 package com.apiRegion.springjwt;
 
+import com.apiRegion.springjwt.repository.CategorieRepository;
 import com.apiRegion.springjwt.repository.RoleRepository;
+import com.apiRegion.springjwt.repository.TypeProdRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.repository.UserStatusRepository;
 import com.apiRegion.springjwt.services.EmailSenderService;
@@ -8,7 +10,6 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
-import org.aspectj.apache.bcel.util.ClassPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,8 @@ import java.io.IOException;
 public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 	private final RoleRepository roleRepository;
 	private final UserRepository userRepository;
+	private final CategorieRepository categorieRepository;
+	private  final TypeProdRepository typeProdRepository;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -37,9 +40,11 @@ public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 
 
 	public SpringBootSecurityJwtApplication(RoleRepository roleRepository, UserRepository userRepository,
-											UserStatusRepository userStatusRepository) {
+											CategorieRepository categorieRepository, TypeProdRepository typeProdRepository, UserStatusRepository userStatusRepository) {
 		this.roleRepository = roleRepository;
 		this.userRepository = userRepository;
+		this.categorieRepository = categorieRepository;
+		this.typeProdRepository = typeProdRepository;
 		this.userStatusRepository = userStatusRepository;
 	}
 
@@ -77,6 +82,12 @@ public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 		}
 		if(userStatusRepository.findAll().size() == 0){
 			userStatusRepository.ajouterStatusUser();
+		}
+		if(categorieRepository.findAll().size() == 0){
+			categorieRepository.ajouterCategorieProd();
+		}
+		if(typeProdRepository.findAll().size() == 0){
+			typeProdRepository.ajouterTypeProduction();
 		}
 
 	//	senderService.sendSimpleEmail("coulibalyadamabekaye03@gmail.com","Mot de passe super admin","Bienvenue sur la plateforme my farmed. Nous avons le plaisir de vous annoncez votre mot de passe : "+password);

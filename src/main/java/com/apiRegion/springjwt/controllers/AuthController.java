@@ -156,7 +156,7 @@ public class AuthController {
 		user.setEtat(true);
 		user.setStatusUser(statusUser);
 
-		senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Bonjour "+user.getNom()+" "+user.getPrenom()+" bienvenue sur la plateforme My Farme. My Farmed est une application de suivie des productions avicoles, de commercialisation des produits avicoles, de communication entre fermier et de formation dans le domaine de l'aviculture.");
+		//senderService.sendSimpleEmail(user.getEmail(), "Création de compte","Bonjour "+user.getNom()+" "+user.getPrenom()+" bienvenue sur la plateforme My Farme. My Farmed est une application de suivie des productions avicoles, de commercialisation des produits avicoles, de communication entre fermier et de formation dans le domaine de l'aviculture.");
 
 		userRepository.save(user);
 		ReponseMessage message = new ReponseMessage("Compte crée avec succès!",true);

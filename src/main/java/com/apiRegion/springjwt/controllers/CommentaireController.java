@@ -46,7 +46,7 @@ public class CommentaireController {
         return this.commentaireRepository.findByTheme(idtheme);
     }*/
 
-    @GetMapping("/listepatheme/{idtheme}")
+    @GetMapping("/listepartheme/{idtheme}")
     public List<Commentaire> commentairesparthemes(Theme idtheme){
         return this.commentaireRepository.mesCommentaires(idtheme);
     }

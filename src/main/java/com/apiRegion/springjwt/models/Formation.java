@@ -28,4 +28,8 @@ public class Formation {
 
     @ManyToMany
     private List<User> users = new ArrayList<>();
+
+    @ManyToOne()
+    @JoinColumn(name = "id_categorie")
+    private CategorieFormation categorieFormation;
 }

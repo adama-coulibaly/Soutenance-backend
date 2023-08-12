@@ -5,6 +5,7 @@ import com.apiRegion.springjwt.models.CategorieProd;
 import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.repository.CategorieRepository;
 import com.apiRegion.springjwt.repository.TypeProdRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategorieServiceImpl implements CategorieService {
 
-    @Autowired
+
     private CategorieRepository categorieRepository;
 
 
