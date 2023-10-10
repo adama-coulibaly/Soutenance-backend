@@ -1,10 +1,11 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Mortalite;
 import com.apiRegion.springjwt.models.Production;
 import com.apiRegion.springjwt.repository.MortaliteRepository;
 import com.apiRegion.springjwt.repository.ProductionRepository;
+import com.apiRegion.springjwt.services.MortaliteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +31,11 @@ public class MortaliteServiceImpl implements MortaliteService {
             mortalite.setProduction(production);
             LocalDate today = LocalDate.now();
             if(mortalite.getDate().isAfter(today)){
-                ReponseMessage message = new ReponseMessage("Veuillez donner une date inferieur ou égal a la date du jour ", false);
-                return message;
+                return new ReponseMessage("Veuillez donner une date inferieur ou égal a la date du jour ", false);
             }
             else{
                 mortaliteRepository.save(mortalite);
-                ReponseMessage message = new ReponseMessage("Mortalité ajouté avec succès", true);
-                return message;
+                return new ReponseMessage("Mortalité ajouté avec succès", true);
             }
 
 
@@ -47,7 +46,7 @@ public class MortaliteServiceImpl implements MortaliteService {
     @Override
     public ReponseMessage Modifier(Mortalite mortalite, Long idmortalite) {
 
-        if (mortaliteRepository.findById(idmortalite) != null){
+        if (mortaliteRepository.findById(idmortalite).isPresent()){
 
             Mortalite mortalite1 = mortaliteRepository.findById(idmortalite).get();
 
@@ -57,20 +56,17 @@ public class MortaliteServiceImpl implements MortaliteService {
             mortalite1.setProduction(mortalite.getProduction());
             LocalDate today = LocalDate.now();
             if(mortalite.getDate().isAfter(today)){
-                ReponseMessage message = new ReponseMessage("Veuillez donner une date inferieur ou égal a la date du jour ", false);
-                return message;
+                return new ReponseMessage("Veuillez donner une date inferieur ou égal a la date du jour ", false);
             }
             else{
                 mortaliteRepository.save(mortalite1);
-                ReponseMessage message = new ReponseMessage("Mortalité modifiée avec succès", true);
-                return message;
+                return new ReponseMessage("Mortalité modifiée avec succès", true);
             }
 
 
         }
         else {
-            ReponseMessage message = new ReponseMessage("Cette mortalité n'existe pas !", false);
-            return message;
+            return new ReponseMessage("Cette mortalité n'existe pas !", false);
 
         }
 
@@ -83,13 +79,11 @@ public class MortaliteServiceImpl implements MortaliteService {
         Optional<Mortalite> m = mortaliteRepository.findById(idmortalite);
         if (m.isPresent()){
             mortaliteRepository.delete(m.get());
-            ReponseMessage message = new ReponseMessage("Mortalité supprimée avec succès", true);
-            return message;
+            return new ReponseMessage("Mortalité supprimée avec succès", true);
 
         }
         else {
-            ReponseMessage message = new ReponseMessage("Impossible de touver la mortalité", false);
-            return message;
+            return new ReponseMessage("Impossible de touver la mortalité", false);
         }
     }
 

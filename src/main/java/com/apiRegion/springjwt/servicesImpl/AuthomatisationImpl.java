@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.controllers.ProductionController;
 import com.apiRegion.springjwt.models.Entretien;
@@ -8,6 +8,9 @@ import com.apiRegion.springjwt.models.Status;
 import com.apiRegion.springjwt.repository.EntretienRepository;
 import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.repository.ProductionRepository;
+import com.apiRegion.springjwt.services.Authomatisation;
+import com.apiRegion.springjwt.services.EntretienService;
+import com.apiRegion.springjwt.services.ProductionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

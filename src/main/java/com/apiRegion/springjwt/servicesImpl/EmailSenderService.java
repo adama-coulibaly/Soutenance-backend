@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

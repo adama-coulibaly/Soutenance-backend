@@ -16,7 +16,7 @@ import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.repository.UserStatusRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
 import com.apiRegion.springjwt.security.jwt.JwtUtils;
-import com.apiRegion.springjwt.services.EmailSenderService;
+import com.apiRegion.springjwt.servicesImpl.EmailSenderService;
 import com.apiRegion.springjwt.services.UserModifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -35,7 +35,7 @@ import com.apiRegion.springjwt.payload.request.LoginRequest;
 import com.apiRegion.springjwt.payload.request.SignupRequest;
 import com.apiRegion.springjwt.repository.RoleRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
-import com.apiRegion.springjwt.services.UserDetailsImpl;
+import com.apiRegion.springjwt.servicesImpl.UserDetailsImpl;
 import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -77,8 +77,20 @@ public class AuthController {
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
 
+		String username = null;
+		if(loginRequest.getUsernameOrEmail().startsWith("+223")){
+			String OK = loginRequest.getUsernameOrEmail().substring(4);
+			username = "+223 "+OK;
+		}
+		else if(loginRequest.getUsernameOrEmail().contains("@gmail")){
+			username = loginRequest.getUsernameOrEmail();
+		}
+		else {
+			username = ("+223 "+loginRequest.getUsernameOrEmail());
+		}
+
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(username, loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);

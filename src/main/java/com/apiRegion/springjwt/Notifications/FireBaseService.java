@@ -4,13 +4,16 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FireBaseService {
-    @Autowired
-    private FirebaseMessaging firebaseMessaging;
+
+    private final FirebaseMessaging firebaseMessaging;
+
+    public FireBaseService(FirebaseMessaging firebaseMessaging) {
+        this.firebaseMessaging = firebaseMessaging;
+    }
 
     public  String SendNotification(SendNotification sendNotification){
         Notification notification = Notification

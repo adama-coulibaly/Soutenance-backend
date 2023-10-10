@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/categorieFormation")
@@ -59,5 +62,20 @@ public class CategorieFormationController {
             return message;
         }
 
+    }
+
+    @GetMapping("/lister")
+    public List<CategorieFormation> mesCategories(){
+        return categorieFormationService.Lister();
+    }
+
+    @GetMapping("/listerId/{idformation}")
+    public Optional<CategorieFormation> lister(@PathVariable("idformation") CategorieFormation categorieFormation){
+        return categorieFormationRepository.findById(categorieFormation.getId());
+    }
+
+    @GetMapping("/deuxFormation")
+    public List<CategorieFormation> liste(){
+        return categorieFormationRepository.deuxFormations();
     }
 }

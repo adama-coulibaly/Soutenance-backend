@@ -3,6 +3,7 @@ package com.apiRegion.springjwt.security;
 import com.apiRegion.springjwt.models.Commande;
 import com.apiRegion.springjwt.models.Formation;
 import com.apiRegion.springjwt.models.User;
+import com.google.firebase.database.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -30,7 +31,12 @@ public class EmailConstructor {
         context.setVariable("user", user);
         context.setVariable("formation", formation);
         String text = templateEngine.process("newformationTemplates", context);
-        MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
+        return getMimeMessagePreparator(user, text);
+    }
+
+    @NotNull
+    private MimeMessagePreparator getMimeMessagePreparator(User user, String text) {
+        return new MimeMessagePreparator() {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
@@ -41,7 +47,6 @@ public class EmailConstructor {
                 email.setFrom(new InternetAddress(env.getProperty("support.email")));
             }
         };
-        return messagePreparator;
     }
 
     public MimeMessagePreparator constructResetPasswordEmail(User user, String password) {
@@ -49,7 +54,7 @@ public class EmailConstructor {
         context.setVariable("user", user);
         context.setVariable("password", password);
         String text = templateEngine.process("resetPasswordEmailTemplate", context);
-        MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
+        return new MimeMessagePreparator() {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
@@ -60,25 +65,20 @@ public class EmailConstructor {
                 email.setFrom(new InternetAddress(env.getProperty("support.email")));
             }
         };
-        return messagePreparator;
     }
 
     public MimeMessagePreparator constructUpdateUserProfileEmail(User user) {
         Context context = new Context();
         context.setVariable("user", user);
         String text = templateEngine.process("updateUserProfileEmailTemplate", context);
-        MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
-                email.setPriority(1);
-                email.setTo(user.getEmail());
-                email.setSubject("Profile Update - Orchard");
-                email.setText(text, true);
-                email.setFrom(new InternetAddress(env.getProperty("support.email")));
-            }
+        return mimeMessage -> {
+            MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
+            email.setPriority(1);
+            email.setTo(user.getEmail());
+            email.setSubject("Profile Update - Orchard");
+            email.setText(text, true);
+            email.setFrom(new InternetAddress(env.getProperty("support.email")));
         };
-        return messagePreparator;
     }
 
     //=========================================================== COMMANDE
@@ -88,17 +88,6 @@ public class EmailConstructor {
         context.setVariable("user", user);
         context.setVariable("commande", commande);
         String text = templateEngine.process("commandes", context);
-        MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
-                email.setPriority(1);
-                email.setTo(user.getEmail());
-                email.setSubject("Bienvenue dans l'Application My farmed");
-                email.setText(text, true);
-                email.setFrom(new InternetAddress(env.getProperty("support.email")));
-            }
-        };
-        return messagePreparator;
+        return getMimeMessagePreparator(user, text);
     }
 }

@@ -1,8 +1,9 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.*;
 import com.apiRegion.springjwt.repository.ProductionRepository;
+import com.apiRegion.springjwt.services.ProductionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,12 @@ import java.util.Optional;
 @Service
 public class ProductionServiceImpl implements ProductionService {
 
-    @Autowired
-    private ProductionRepository productionRepository;
+    private final ProductionRepository productionRepository;
+
+    public ProductionServiceImpl(ProductionRepository productionRepository) {
+        this.productionRepository = productionRepository;
+    }
+
     @Override
     public ReponseMessage Ajouter(Production production, Typeproduction typeproduction, Ferme ferme) {
 
@@ -24,11 +29,10 @@ public class ProductionServiceImpl implements ProductionService {
                 production.setTypeproduction(typeproduction);
                 production.setFerme(ferme);
                 productionRepository.save(production);
-                ReponseMessage message = new ReponseMessage("Production ajoutée avec succès !", true);
-                return message;
+           return new ReponseMessage("Production ajoutée avec succès !", true);
             }
-            else {  ReponseMessage message = new ReponseMessage("Cette production existe !", false);
-                return message;}
+            else {
+           return new ReponseMessage("Cette production existe !", false);}
    }
 
     @Override
@@ -71,22 +75,18 @@ public class ProductionServiceImpl implements ProductionService {
             }
 
            if(production.getDateentrer().isAfter(production.getDatesortie())){
-               ReponseMessage message = new ReponseMessage("Veuillez donnez une date correcte !", false);
-               return message;
+               return new ReponseMessage("Veuillez donnez une date correcte !", false);
            }
            else if(production.getDateentrer().equals(production.getDatesortie())){
-               ReponseMessage message = new ReponseMessage("Veuillez donner un interval de date correct !", false);
-               return message;
+               return new ReponseMessage("Veuillez donner un interval de date correct !", false);
            } else if (intervalle.getMonths() < 1 ) {
 
-               ReponseMessage message = new ReponseMessage("Veuillez donner un interval superieur a moins 30 jours !", false);
-               return message;
+               return new ReponseMessage("Veuillez donner un interval superieur a moins 30 jours !", false);
            }
            else {
                production2.setStatus(production.getStatus());
                this.productionRepository.save(production2);
-               ReponseMessage message = new ReponseMessage("Production modifiée avec succès !", true);
-               return message;
+               return new ReponseMessage("Production modifiée avec succès !", true);
            }
 
 
@@ -99,8 +99,7 @@ public class ProductionServiceImpl implements ProductionService {
         Production p = productionRepository.findById(idproduction).get();
         p.setStatus(production.getStatus());
         this.productionRepository.save(production);
-        ReponseMessage message = new ReponseMessage("Status modifiée avec succès !", true);
-        return message;
+        return new ReponseMessage("Status modifiée avec succès !", true);
     }
 
     @Override
@@ -110,12 +109,10 @@ public class ProductionServiceImpl implements ProductionService {
             Production production2 = productionRepository.findById(idproduction).get();
             production2.setEtat(production.isEtat());
             this.productionRepository.save(production2);
-            ReponseMessage message = new ReponseMessage("Production modifiée avec succès !", true);
-            return message;
+            return new ReponseMessage("Production modifiée avec succès !", true);
         }
         else {
-            ReponseMessage message = new ReponseMessage("Production non avec succès !", false);
-            return message;
+            return new ReponseMessage("Production non avec succès !", false);
 
         }
     }

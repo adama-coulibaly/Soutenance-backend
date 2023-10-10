@@ -1,10 +1,11 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Produit;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.ProduitRepository;
+import com.apiRegion.springjwt.services.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,10 @@ public class ProduitServiceImpl implements ProduitService {
           produit.getFermes().add(ferme);
 
             produitRepository.save(produit);
-            ReponseMessage message = new ReponseMessage("Produit créer avec succès",true);
-            return message;
+            return new ReponseMessage("Produit créer avec succès",true);
         }
         else{
-            ReponseMessage message = new ReponseMessage("Cette reference de prodits existe déjàs  existe déjà !",false);
-            return message;
+            return new ReponseMessage("Cette reference de prodits existe déjàs  existe déjà !",false);
         }
     }
 
@@ -38,8 +37,7 @@ public class ProduitServiceImpl implements ProduitService {
         Optional<Produit> produit1 = produitRepository.findById(idproduit);
         if(!produit1.isPresent()){
 
-            ReponseMessage message = new ReponseMessage("Ce produit n'est pas trouvée !", false);
-            return message;
+            return new ReponseMessage("Ce produit n'est pas trouvée !", false);
         }
         else {
 
@@ -53,8 +51,7 @@ public class ProduitServiceImpl implements ProduitService {
 
             this.produitRepository.save(produit2);
 
-            ReponseMessage message = new ReponseMessage("Produit modifiée avec succès !", true);
-            return message;
+            return new ReponseMessage("Produit modifiée avec succès !", true);
 
 
         }
@@ -72,12 +69,10 @@ public class ProduitServiceImpl implements ProduitService {
             Produit produit2 = produitRepository.findById(idproduit).get();
             produit2.setEtat(produit.isEtat());
             this.produitRepository.save(produit2);
-            ReponseMessage message = new ReponseMessage("Etat modifiée avec succès !", true);
-            return message;
+            return new ReponseMessage("Etat modifiée avec succès !", true);
         }
         else {
-            ReponseMessage message = new ReponseMessage("Produit non modifiés !e", false);
-            return message;
+            return new ReponseMessage("Produit non modifiés !e", false);
 
 
         }

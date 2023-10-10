@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Ferme;
@@ -7,6 +7,7 @@ import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.NotificationSenderRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
+import com.apiRegion.springjwt.services.UserModifier;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

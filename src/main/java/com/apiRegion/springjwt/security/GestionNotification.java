@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableScheduling
 public class GestionNotification {
 
-    @Scheduled(fixedDelay = 1000) // CECI NOUS PERMET D'EXECUTER UNE TACHE A UN MOMENT PRECISE
+ /*   @Scheduled(fixedDelay = 1000) // CECI NOUS PERMET D'EXECUTER UNE TACHE A UN MOMENT PRECISE
     public void scheduleFixedDelayTask() {
-      ///  System.out.println(
-         //       "Fixed delay task - " + System.currentTimeMillis() / 1000);
-    }
+       System.out.println(
+               "Fixed delay task - " + System.currentTimeMillis() / 1000);
+    }*/
 }

@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Theme;
@@ -6,6 +6,7 @@ import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.ThemeRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
+import com.apiRegion.springjwt.services.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

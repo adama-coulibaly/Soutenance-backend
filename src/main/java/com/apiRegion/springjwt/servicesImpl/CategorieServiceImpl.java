@@ -1,10 +1,11 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.CategorieProd;
 import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.repository.CategorieRepository;
 import com.apiRegion.springjwt.repository.TypeProdRepository;
+import com.apiRegion.springjwt.services.CategorieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,14 @@ import java.util.Optional;
 public class CategorieServiceImpl implements CategorieService {
 
 
-    private CategorieRepository categorieRepository;
+    private final CategorieRepository categorieRepository;
 
 
     @Override
     public ReponseMessage Ajouter(CategorieProd categorieProd) {
         if (categorieRepository.findByNomcategories(categorieProd.getNomcategories()) == null){
             categorieRepository.save(categorieProd);
-            ReponseMessage message = new ReponseMessage("TCatégorie ajouté avec succes !", true);
+            ReponseMessage message = new ReponseMessage("Catégorie ajouté avec succes !", true);
             return message;
         }
         else{

@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.CategorieFormation;
@@ -6,6 +6,7 @@ import com.apiRegion.springjwt.models.Formation;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.CategorieFormationRepository;
 import com.apiRegion.springjwt.repository.CategorieRepository;
+import com.apiRegion.springjwt.services.CategorieFormationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

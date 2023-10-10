@@ -5,7 +5,7 @@ import com.apiRegion.springjwt.repository.RoleRepository;
 import com.apiRegion.springjwt.repository.TypeProdRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.repository.UserStatusRepository;
-import com.apiRegion.springjwt.services.EmailSenderService;
+import com.apiRegion.springjwt.servicesImpl.EmailSenderService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -52,20 +52,18 @@ public class SpringBootSecurityJwtApplication implements CommandLineRunner {
 		SpringApplication.run(SpringBootSecurityJwtApplication.class, args);
 	}
 
+@Bean
+FirebaseMessaging firebaseMessaging() throws IOException {
+			GoogleCredentials googleCredentials = GoogleCredentials
+					.fromStream(new
+							ClassPathResource("google-services.json").getInputStream());
+			FirebaseOptions firebaseOptions = FirebaseOptions.builder()
+					.setCredentials(googleCredentials).build();
+			FirebaseApp app =
+					FirebaseApp.initializeApp(firebaseOptions,"My farmed");
+			return FirebaseMessaging.getInstance(app);
+		}
 
-
-
-
-	@Bean
-	FirebaseMessaging firebaseMessaging() throws IOException {
-
-		GoogleCredentials googleCredentials = GoogleCredentials
-				.fromStream(new ClassPathResource("smsnotification-76ab1-firebase-adminsdk-3ocyr-ab4453f32d.json").getInputStream());
-		FirebaseOptions firebaseOptions  =  FirebaseOptions.builder()
-				.setCredentials(googleCredentials).build();
-		FirebaseApp firebaseApp = FirebaseApp.initializeApp(firebaseOptions,"My-Farmed");
-		return FirebaseMessaging.getInstance(firebaseApp);
-	}
 
 
 

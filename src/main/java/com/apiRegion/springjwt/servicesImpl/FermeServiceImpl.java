@@ -1,10 +1,12 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Production;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.FermeRepository;
+import com.apiRegion.springjwt.services.FermeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FermeServiceImpl implements FermeService {
 
-    @Autowired
-    private FermeRepository fermeRepository;
+
+    private final FermeRepository fermeRepository;
 
 /// ================================================== AJOUTER
     @Override
@@ -25,12 +28,10 @@ public class FermeServiceImpl implements FermeService {
             ferme.setEtat(true);
             ferme.setUser(user_id);
             fermeRepository.save(ferme);
-            ReponseMessage message = new ReponseMessage("Ferme créer avec succès",true);
-            return message;
+            return new ReponseMessage("Ferme créer avec succès",true);
         }
         else{
-            ReponseMessage message = new ReponseMessage("Ce non existe déjà !",false);
-            return message;
+            return new ReponseMessage("Ce non existe déjà !",false);
         }
 
     }
@@ -43,8 +44,7 @@ public class FermeServiceImpl implements FermeService {
         Optional<Ferme> ferme1 = fermeRepository.findById(idferme);
         if(!ferme1.isPresent()){
 
-            ReponseMessage message = new ReponseMessage("Cette ferme n'est pas trouvée !", false);
-            return message;
+            return new ReponseMessage("Cette ferme n'est pas trouvée !", false);
         }
         else {
 
@@ -57,8 +57,7 @@ public class FermeServiceImpl implements FermeService {
             ferme2.setEtat(ferme.isEtat());
             this.fermeRepository.save(ferme2);
 
-            ReponseMessage message = new ReponseMessage("Ferme modifiée avec succès !", true);
-            return message;
+            return new ReponseMessage("Ferme modifiée avec succès !", true);
 
 
         }
@@ -71,12 +70,10 @@ public class FermeServiceImpl implements FermeService {
         Optional<Ferme> ferme1 = fermeRepository.findById(idferme);
         if(!ferme1.isPresent()){
 
-            ReponseMessage message = new ReponseMessage("Cette ferme n'est pas trouvée !", false);
-            return message;
+            return new ReponseMessage("Cette ferme n'est pas trouvée !", false);
         }else{
             this.fermeRepository.delete(ferme1.get());
-            ReponseMessage message = new ReponseMessage("ferme supprimer avec succès!", true);
-            return message;
+            return new ReponseMessage("ferme supprimer avec succès!", true);
 
         }
 
@@ -90,14 +87,10 @@ public class FermeServiceImpl implements FermeService {
                 Ferme ferme2 = fermeRepository.findById(idferme).get();
                 ferme2.setEtat(ferme.isEtat());
                 this.fermeRepository.save(ferme2);
-                ReponseMessage message = new ReponseMessage("Etat modifiée avec succès !", true);
-                return message;
+                return new ReponseMessage("Etat modifiée avec succès !", true);
             }
             else {
-                ReponseMessage message = new ReponseMessage("Ferme non modifiés !e", false);
-                return message;
-
-
+                return new ReponseMessage("Ferme non modifiés !e", false);
         }
     }
 

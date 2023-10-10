@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.apiRegion.springjwt.security.jwt.AuthEntryPointJwt;
-import com.apiRegion.springjwt.services.UserDetailsServiceImpl;
+import com.apiRegion.springjwt.servicesImpl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -74,8 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/historique/**").permitAll()
 				.antMatchers("/sms/**").permitAll()
 				.antMatchers("/categorieFormation/**").permitAll()
-
-			.antMatchers("/api/test/**").permitAll()
+				.antMatchers("/api/test/**").permitAll()
 			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

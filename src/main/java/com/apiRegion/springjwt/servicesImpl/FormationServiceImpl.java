@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.CategorieFormation;
@@ -9,6 +9,8 @@ import com.apiRegion.springjwt.repository.CategorieFormationRepository;
 import com.apiRegion.springjwt.repository.FormationRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
 import com.apiRegion.springjwt.security.EmailConstructor;
+import com.apiRegion.springjwt.services.FormationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,20 +21,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FormationServiceImpl implements FormationService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CategorieFormationRepository categorieFormationRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private FormationRepository formationRepository;
+    private final CategorieFormationRepository categorieFormationRepository;
+    private final FormationRepository formationRepository;
 
-    @Autowired
-    EmailConstructor emailConstructor;
-    @Autowired
-    JavaMailSender mailSender;
+    private final EmailConstructor emailConstructor;
+    private final JavaMailSender mailSender;
 
     @Override
     public ReponseMessage Ajouter(Formation formation, User user_id, CategorieFormation categorieFormation) {

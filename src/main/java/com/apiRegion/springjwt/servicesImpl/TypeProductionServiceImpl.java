@@ -1,9 +1,10 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Ferme;
 import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.repository.TypeProdRepository;
+import com.apiRegion.springjwt.services.TypeProductionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

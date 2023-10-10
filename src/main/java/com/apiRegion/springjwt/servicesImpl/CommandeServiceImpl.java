@@ -1,9 +1,11 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.*;
 import com.apiRegion.springjwt.repository.*;
 import com.apiRegion.springjwt.security.EmailConstructor;
+import com.apiRegion.springjwt.services.CommandeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -16,29 +18,19 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class CommandeServiceImpl implements CommandeService {
-    @Autowired
-    private HistoriqueRepository historiqueRepository;
+    private final HistoriqueRepository historiqueRepository;
     private final PanierRepository panierRepository;
-    @Autowired
-    private JavaMailSender mailSender;
-    @Autowired
-    private EmailConstructor emailConstructor;
-    @Autowired
-    private CommandeRepository commandeRepository;
+    private final JavaMailSender mailSender;
+
+    private final EmailConstructor emailConstructor;
+    private final CommandeRepository commandeRepository;
     private final ProduitRepository produitRepository;
     private final ProductionRepository productionRepository;
     private final NotificationSenderRepository notificationSenderRepository;
 
-    public CommandeServiceImpl(PanierRepository panierRepository,
-                               ProduitRepository produitRepository,
-                               ProductionRepository productionRepository,
-                               NotificationSenderRepository notificationSenderRepository) {
-        this.panierRepository = panierRepository;
-        this.produitRepository = produitRepository;
-        this.productionRepository = productionRepository;
-        this.notificationSenderRepository = notificationSenderRepository;
-    }
+
 
     @Override
     public ReponseMessage ajouter(Commande commande, User user) {
@@ -93,14 +85,13 @@ public class CommandeServiceImpl implements CommandeService {
             notif.setUser(user);
             notif.setTitrenotification("Commande: "+codeCommende);
             notif.setLire(false);
-            notif.setMessagenotification("Votre commande de produits du "+LocalDate.now()+" à été envoyée avec succès. MONTANT TOTAL: "+Totaux+" QUANTITE: "+TotalQ);
+            notif.setMessagenotification("Votre commande de produits du "+LocalDate.now()+" à été envoyée avec succès. \n MONTANT TOTAL: "+Totaux+" \n QUANTITE: "+TotalQ);
             notificationSenderRepository.save(notif);
             // ========================================= ICI ON ATTRIBUT LES VALEURS DE USER QUI PASSE LA COMMANDE
             commandeRepository.save(commande);
 
-           mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
-           ReponseMessage message = new ReponseMessage("Commende effectuée avec succès",true);
-           return message;
+           //mailSender.send(emailConstructor.sendMailCommande(user,commande)); // SEND EMAIL
+            return new ReponseMessage("Commende effectuée avec succès",true);
 
         }
         else{

@@ -17,4 +17,6 @@ public interface CommentaireService {
     ReponseMessage Supprimer(Long idcommentaire , Long id);
 
     List<Commentaire> Lister();
+    List<Commentaire> ListerParTheme(Theme theme);
+
 }

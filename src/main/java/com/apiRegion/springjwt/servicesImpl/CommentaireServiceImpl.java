@@ -1,4 +1,4 @@
-package com.apiRegion.springjwt.services;
+package com.apiRegion.springjwt.servicesImpl;
 
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Commentaire;
@@ -7,6 +7,7 @@ import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.CommentaireRepository;
 import com.apiRegion.springjwt.repository.ThemeRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
+import com.apiRegion.springjwt.services.CommentaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,5 +98,10 @@ public class CommentaireServiceImpl implements CommentaireService {
     @Override
     public List<Commentaire> Lister() {
         return commentaireRepository.findAll();
+    }
+
+    @Override
+    public List<Commentaire> ListerParTheme(Theme theme) {
+        return commentaireRepository.mesCommentaires(theme);
     }
 }

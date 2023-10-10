@@ -5,10 +5,9 @@ import com.apiRegion.springjwt.models.Theme;
 import com.apiRegion.springjwt.models.User;
 import com.apiRegion.springjwt.repository.ThemeRepository;
 import com.apiRegion.springjwt.repository.UserRepository;
-import com.apiRegion.springjwt.services.SmsService;
+import com.apiRegion.springjwt.servicesImpl.SmsService;
 import com.apiRegion.springjwt.services.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

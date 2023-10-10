@@ -3,9 +3,8 @@ package com.apiRegion.springjwt.controllers;
 import com.apiRegion.springjwt.Message.ReponseMessage;
 import com.apiRegion.springjwt.models.Commentaire;
 import com.apiRegion.springjwt.models.Theme;
-import com.apiRegion.springjwt.models.Typeproduction;
 import com.apiRegion.springjwt.models.User;
-import com.apiRegion.springjwt.repository.CommentaireRepository;
+import com.apiRegion.springjwt.repository.ThemeRepository;
 import com.apiRegion.springjwt.services.CommentaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +20,11 @@ public class CommentaireController {
     @Autowired
     private CommentaireService commentaireService;
 
-    @Autowired
-    private CommentaireRepository commentaireRepository;
+    private final ThemeRepository themeRepository;
+
+    public CommentaireController(ThemeRepository themeRepository) {
+        this.themeRepository = themeRepository;
+    }
 
 
     // ========================================= AJOUTER UN Commentaire
@@ -47,8 +49,9 @@ public class CommentaireController {
     }*/
 
     @GetMapping("/listepartheme/{idtheme}")
-    public List<Commentaire> commentairesparthemes(Theme idtheme){
-        return this.commentaireRepository.mesCommentaires(idtheme);
+    public List<Commentaire> commentairesparthemes(@PathVariable("idtheme") Long idtheme){
+        Theme theme = themeRepository.findById(idtheme).get();
+        return this.commentaireService.ListerParTheme(theme);
     }
 
 // ============================================== MODIFIER UN COMMENTAIRE PAR SON PROPRE USER
